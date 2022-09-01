@@ -1,10 +1,10 @@
-package cartes;
+package main;
 
 public class Carte {
 	private Symbole symbole;
 	private Couleur couleur;
 	private int id;
-	private static int NUM=0; 
+	private static int NUM=1; 
 	
 	public Carte(Symbole symbole, Couleur couleur) {
 		super();
@@ -31,7 +31,7 @@ public class Carte {
 	}
 	
 	public String toString() {
-		String res="Carte "+id+" : Symbole: "+symbole+" ,Couleur: "+couleur+"/";
+		String res="Carte "+id+" : Symbole: "+symbole+" ,Couleur: "+ couleur + "\n";
 		return res;
 	}
 }

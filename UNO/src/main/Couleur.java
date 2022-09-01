@@ -1,4 +1,4 @@
-package cartes;
+package main;
 
 public enum Couleur {
 	

@@ -1,7 +1,6 @@
-package cartes;
+package main;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Pioche {
 	private ArrayList<Carte> cartes=new ArrayList<Carte>();
@@ -28,9 +27,9 @@ public class Pioche {
 			c.add(cou);
 		}
 		for(int i=0; i<13; i++) {
-			for(int j=0; i<4; i++) {
+			for(int j=0; j<4; j++) {
 				if(!s.get(i).equals(Symbole.ZERO)){
-					for(int k=0; i<2; i++) {
+					for(int k=0; k<2; k++) {
 						cartes.add(new Carte(s.get(i),c.get(j)));
 					}
 				}else {
@@ -39,7 +38,13 @@ public class Pioche {
 			}
 		}
 		
-		
+		for(int i=13; i<15; i++) {
+			for(int j=4; j<5; j++) {
+				for(int k=0; k<4; k++) {
+					cartes.add(new Carte(s.get(i),c.get(j)));
+				}
+			}
+		}
 	}
 	
 	public String toString() {

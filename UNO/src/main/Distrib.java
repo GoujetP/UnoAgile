@@ -6,9 +6,9 @@ import java.util.Random;
 public class Distrib {
 	public ArrayList<Carte> initialDistribution(ArrayList<Carte> input){
 		Carte temp;
-		Random r;
+		Random r = null;
 		int place;
-		int size =input.size();
+		//int size =input.size();
 		for(Carte c:input) {
 			temp=c;
 			place=r.nextInt();
