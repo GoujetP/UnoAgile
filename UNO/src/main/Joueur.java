@@ -1,5 +1,14 @@
 package main;
 
-public class Joueur {
+import java.util.ArrayList;
 
+public class Joueur {
+	ArrayList<Carte> main;
+
+	public Joueur(ArrayList<Carte> main) {
+		super();
+		this.main = main;
+	}
+	
+	
 }
