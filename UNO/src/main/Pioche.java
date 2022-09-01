@@ -48,7 +48,7 @@ public class Pioche {
 	}
 	
 	public String toString() {
-		String res="Les cartes sont: ";
+		String res="Les cartes sont: \n";
 		for(Carte c:cartes) {
 			res+=" ";
 			res+=c;
