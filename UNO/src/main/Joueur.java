@@ -41,4 +41,8 @@ public class Joueur {
 		this.main.remove(c);
 	}
 	
+	
+	public int getNbCarte(){
+		return this.main.size();
+	}
 }
