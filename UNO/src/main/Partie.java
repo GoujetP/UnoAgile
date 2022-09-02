@@ -34,20 +34,23 @@ public class Partie {
 		System.out.println("La carte au milieu est " +mid_carte.toString());
 	}
 	
+	public void init_partie() {
+		Distrib distrib = new Distrib();
+		ArrayList<Carte> init = distrib.initialDistribution(pioche.getCartes());
+		for (int i = 0 ; i <7 ; i++) {
+			joueur.addCarte(distrib.distribuer(pioche.getCartes()));
+			bot1.addCarte(distrib.distribuer(pioche.getCartes()));
+			bot2.addCarte(distrib.distribuer(pioche.getCartes()));
+		}
+		mid_carte=distrib.distribuer(pioche.getCartes());
+		voirMidCarte();
+	}
+	
+	
 	
 	public static void main(String[] args) {
-		Distrib distrib = new Distrib();
 		Partie partie = new Partie();
-		ArrayList<Carte> init = distrib.initialDistribution(partie.pioche.getCartes());
-		for (int i = 0 ; i <7 ; i++) {
-			partie.joueur.addCarte(distrib.distribuer(partie.pioche.getCartes()));
-			partie.bot1.addCarte(distrib.distribuer(partie.pioche.getCartes()));
-			partie.bot2.addCarte(distrib.distribuer(partie.pioche.getCartes()));
-		}
-		System.out.println(partie.joueur.getMain().toString());
-		partie.mid_carte=distrib.distribuer(partie.pioche.getCartes());
-		partie.voirMidCarte();
-		partie.piocher(partie.joueur);
+		partie.init_partie();
 		System.out.println(partie.joueur.getMain().toString());
 	}
 }
