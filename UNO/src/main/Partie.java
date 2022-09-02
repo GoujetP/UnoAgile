@@ -134,7 +134,6 @@ public class Partie {
 	public void joueurSuivant() {
 		next(current);
 		current = current.getNext();
-		System.out.println(current);
 		next(current);
 	}
 
@@ -185,7 +184,6 @@ public class Partie {
 		Carte choix = bot.getMain().get(index);
 		bot.getMain().remove(choix);
 		mid_carte = choix;
-		
 		System.out.println(bot.getNom()+" a joué "+choix);
 	}
 
