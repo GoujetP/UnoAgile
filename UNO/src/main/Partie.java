@@ -117,9 +117,9 @@ public class Partie {
 	}
 
 	public String toString() {
-		String res="Partie:";
+		String res="Partie: \n";
 		for (Joueur j:joueurs) {
-			res+=j.getNom()+": \n ------------------------"+ j.getMain()+"------------------------\n";
+			res+=j;
 		}
 		res += "\n";
 		res += "joueur: " + current + "\n";
