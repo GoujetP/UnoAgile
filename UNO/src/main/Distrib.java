@@ -1,7 +1,7 @@
 package main;
-
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 public class Distrib {
 	public ArrayList<Carte> initialDistribution(ArrayList<Carte> input){

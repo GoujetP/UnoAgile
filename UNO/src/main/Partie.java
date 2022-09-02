@@ -1,9 +1,10 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-
 
 public class Partie {
 	private Pioche pioche;
@@ -11,109 +12,194 @@ public class Partie {
 	private Joueur bot2;
 	private Joueur joueur;
 	private Carte mid_carte;
-	
-	
+
 	public Partie() {
 		super();
-		this.pioche =new Pioche();
-		this.bot1 = new Joueur();
-		this.bot2 = new Joueur();
-		this.joueur =  new Joueur();
+		this.pioche = new Pioche();
+		this.bot1 = new Joueur("bot1");
+		this.bot2 = new Joueur("bot2");
+		this.joueur = new Joueur("joueur");
 	}
-
-
 
 	public void piocher(Joueur j) {
 		Random r = new Random();
 		Carte c = this.pioche.getCartes().get(r.nextInt(this.pioche.getCartes().size()));
 		j.addCarte(c);
 		this.pioche.getCartes().remove(c);
-		
+
 	}
-	
+
 	public void voirMidCarte() {
-		System.out.println("La carte au milieu est " +mid_carte.toString());
+		System.out.println("La carte au milieu est " + mid_carte.toString());
 	}
-	
 
 	public void init_partie() {
 		Distrib distrib = new Distrib();
 		ArrayList<Carte> init = distrib.initialDistribution(pioche.getCartes());
-		for (int i = 0 ; i <7 ; i++) {
+		for (int i = 0; i < 7; i++) {
 			joueur.addCarte(distrib.distribuer(pioche.getCartes()));
 			bot1.addCarte(distrib.distribuer(pioche.getCartes()));
 			bot2.addCarte(distrib.distribuer(pioche.getCartes()));
 		}
-		mid_carte=distrib.distribuer(pioche.getCartes());
+		mid_carte = distrib.distribuer(pioche.getCartes());
 		voirMidCarte();
 	}
-	
-	
-	public boolean peutJouerCarte(Carte c) {
-		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())|| (c.getCouleur().equals(Couleur.SPECIAL))) {
-			return true;
+
+	private ArrayList<Joueur> joueurs;
+	private Joueur current;
+
+	public Partie(ArrayList<Joueur> entrée) {
+		joueurs = entrée;
+		Collections.shuffle(joueurs);
+	}
+
+	public Partie(Joueur j, int places) {
+		joueurs = new ArrayList<Joueur>();
+		joueurs.add(j);
+		for (int i = 0; i < places; i++) {
+			joueurs.add(new Joueur("bot" + i, new ArrayList<Carte>()));
 		}
-		else {
+		Collections.shuffle(joueurs);
+		current = joueurs.get(0);
+		next(current);
+	}
+
+	public ArrayList<Joueur> getJoueurs() {
+		return joueurs;
+	}
+
+	public void setJoueurs(ArrayList<Joueur> joueurs) {
+		this.joueurs = joueurs;
+	}
+
+	public boolean peutJouerCarte(Carte c) {
+		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())
+				|| (c.getCouleur().equals(Couleur.SPECIAL))) {
+			return true;
+		} else {
 			return false;
 		}
 	}
-	
-	public boolean peutJouer(ArrayList<Carte> main) {
+
+	public boolean peutJouer(List<Carte> main) {
 		for (Carte c : main) {
-			if(peutJouerCarte(c)) {
+			if (peutJouerCarte(c)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	
+
+	public void reverse() {
+		for (int i = 0; i < joueurs.size() / 2; i++) {
+			Joueur temp = joueurs.get(i);
+			joueurs.set(i, joueurs.get(joueurs.size() - 1 - i));
+			joueurs.set(joueurs.size() - 1 - i, temp);
+		}
+		next(current);
+		System.out.println("Le joueur suivant est désormais: " + current.getNext());
+		joueurSuivant();
+	}
+
+	public void next(Joueur j) {
+		int idx = joueurs.indexOf(j);
+		if ((idx + 1) == joueurs.size()) {
+			idx = 0;
+		} else {
+			idx++;
+		}
+		j.setNext(joueurs.get(idx));
+	}
+
+	public String toString() {
+		String res = "Partie: ";
+		for (Joueur j : joueurs) {
+			res += j.getNom() + ": [" + j.getMain() + "] ";
+		}
+		res += "\n";
+		res += "joueur: " + current + "\n";
+		res += "joueur suivant: " + current.getNext();
+		return res;
+	}
+
+	public void joueurSuivant() {
+		next(current);
+		current = current.getNext();
+		next(current);
+	}
+
+	public void passer() {
+		joueurSuivant();
+		System.out.println("Le joueur suivant est désormais: " + current.getNext());
+		joueurSuivant();
+
+	}
+
 	public Carte choixCarte(Joueur j1) {
 		Carte choix = null;
 		boolean ok;
 		do {
 			ok = false;
 
-			try{
+			try {
 				@SuppressWarnings("resource")
 				Scanner keyboard = new Scanner(System.in);
 				System.out.println(j1.getMain().toString());
 				System.out.println("Choix de la carte à poser : ");
 				int indexChoix = keyboard.nextInt();
-				choix = j1.getMain().get(indexChoix-1);
+				choix = j1.getMain().get(indexChoix - 1);
 				ok = true;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				ok = false;
+			} catch (Exception e) {
+				ok = false;
 			}
-			catch(ArrayIndexOutOfBoundsException e) {
-				ok=false;
-			}
-			catch(Exception e) {
-				ok=false;
-			}
-		}while(!ok);
+		} while (!ok);
 		return choix;
 	}
-	
-	
+
 	public void poserCarte(Joueur j) {
 		Carte choix = choixCarte(j);
 		if (peutJouer(j.getMain())) {
-			while( !peutJouerCarte(choix)) {
-				choix=choixCarte(j);
+			while (!peutJouerCarte(choix)) {
+				choix = choixCarte(j);
 				System.out.println(choix);
 			}
 			j.getMain().remove(choix);
-			mid_carte=choix;
+			mid_carte = choix;
 			System.out.println(mid_carte);
-		}
-		else {
+		} else {
 			piocher(j);
 		}
 	}
+
 	public static void main(String[] args) {
 		Partie partie = new Partie();
 		partie.init_partie();
 		partie.poserCarte(partie.joueur);
-		
+
+		System.out.println(partie.joueur.getMain().toString());
+		String name = "";
+		int nb = 0;
+		try (Scanner sc = new Scanner(System.in)) {
+			System.out.println("Veuillez entrer votre pseudo:");
+			name = sc.nextLine();
+			System.out.println("Bienvenue, " + name + "!");
+			System.out.println("Combien de joueurs(sans vous compter)?");
+			nb = Integer.parseInt(sc.nextLine());
+			nb = 3; // à changer
+			Joueur j = new Joueur(name, new ArrayList<Carte>());
+			Partie p = new Partie(j, nb);
+			System.out.println(p);
+			p.reverse();
+			System.out.println(p);
+			p.joueurSuivant();
+			System.out.println(p);
+			p.passer();
+			System.out.println(p);
+		} catch (NumberFormatException e) {
+			System.out.println("Veuillez entrer un chiffre");
+		}
 	}
 
 }

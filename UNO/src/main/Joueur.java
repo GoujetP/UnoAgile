@@ -1,12 +1,15 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Joueur {
-	private ArrayList<Carte> main;
+	private String nom;
+	private List<Carte> main;
 	private int ordre;
+	private Joueur next;
 
-	public ArrayList<Carte> getMain() {
+	public List<Carte> getMain() {
 		return main;
 	}
 
@@ -14,9 +17,17 @@ public class Joueur {
 		this.main = main;
 	}
 
-	public Joueur() {
+	public Joueur(String name) {
 		super();
-		this.main = new ArrayList<Carte>();
+		this.nom=name;
+		this.main =new ArrayList<Carte>();
+		this.ordre=0;
+	}
+	
+	public Joueur(String name,List<Carte> main) {
+		super();
+		this.nom=name;
+		this.main = main;
 		this.ordre=0;
 	}
 
@@ -44,5 +55,26 @@ public class Joueur {
 	
 	public int getNbCarte(){
 		return this.main.size();
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Joueur getNext() {
+		return next;
+	}
+
+	public void setNext(Joueur next) {
+		this.next = next;
+	}
+	
+	public String toString() {
+		return nom;
+		
 	}
 }
