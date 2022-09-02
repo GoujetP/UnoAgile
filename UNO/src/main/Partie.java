@@ -60,24 +60,6 @@ public class Partie {
 		this.joueurs = joueurs;
 	}
 
-	public boolean peutJouerCarte(Carte c) {
-		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())
-				|| (c.getCouleur().equals(Couleur.SPECIAL))) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	public boolean peutJouer(List<Carte> main) {
-		for (Carte c : main) {
-			if (peutJouerCarte(c)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void reverse() {
 		for (int i = 0; i < joueurs.size() / 2; i++) {
 			Joueur temp = joueurs.get(i);
@@ -141,7 +123,37 @@ public class Partie {
 
 	}
 
+	public boolean verifierWin() {
+		boolean res=false;
+		for(Joueur j:joueurs) {
+			if(j.getNbCarte()==0) {
+				res=true;
+			}
+		}
+		return res;
+	}
+	
+	public boolean peutJouerCarte(Carte c) {
+		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())
+				|| (c.getCouleur().equals(Couleur.SPECIAL))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean peutJouer(Joueur j) {
+		for (Carte c : j.getMain()) {
+			if (peutJouerCarte(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
 	public Carte choixCarte(Joueur j1) {
+		/*
 		Carte choix = null;
 		boolean ok;
 		do {
@@ -162,21 +174,32 @@ public class Partie {
 			}
 		} while (!ok);
 		return choix;
+		*/
+		
+		Carte choix=null;
+		boolean posee=false;
+		boolean pioche=false;
+		try {
+			while((!posee)&&(!pioche)) {
+				@SuppressWarnings("resource")
+				Scanner keyboard = new Scanner(System.in);
+				System.out.println("Choix de la carte à poser (tapez 'pioche' pour piocher): ");
+				String indexChoix = keyboard.next();
+				if(Integer.parseInt(indexChoix)<=j1.getNbCarte()) {
+					choix = j1.getMain().get(Integer.parseInt(indexChoix) - 1);
+				}else if(indexChoix.toLowerCase().equals("pioche")) {
+					pioche=true;
+					piocher(j1);
+				}else {
+					System.out.println("Entrez un chiffre entre 1 et "+j1.getNbCarte()+" ou tapez 'pioche'");
+				}
+			}
+		}catch (ArrayIndexOutOfBoundsException e) {};
+		return choix;
 	}
 
-	public void poserCarte(Joueur j) {
-		Carte choix = choixCarte(j);
-		if (peutJouer(j.getMain())) {
-			while (!peutJouerCarte(choix)) {
-				choix = choixCarte(j);
-				System.out.println(choix);
-			}
-			j.getMain().remove(choix);
-			mid_carte = choix;
-			System.out.println(mid_carte);
-		} else {
-			piocher(j);
-		}
+	public void poserCarte(Carte c) {
+		mid_carte=c;
 	}
 	
 	public void poserCarteBot(Joueur bot,int index) {
@@ -189,9 +212,9 @@ public class Partie {
 		
 	}
 
+	
 	public static void main(String[] args) {
-		boolean win = false;
-		Joueur winner = new Joueur("winner_test");
+		
 		String name="";
 		int nb=0;
 		try (Scanner sc = new Scanner(System.in)) {
@@ -203,47 +226,22 @@ public class Partie {
 			Joueur j=new Joueur(name);
 			Partie p=new Partie(j,nb);
 			p.init_partie();
-			while (!win) {
-				if (p.current.equals(j)) {
-					p.poserCarte(j);
-					p.passer();
+			
+			while(!p.verifierWin()) {
+				if(p.current.equals(j)) {
+					System.out.println("Voici votre main: \n");
+					System.out.println(j);
+					
+				}else {
+					j.setMain(new ArrayList<Carte>());
 				}
-				else {
-					for (Joueur js : p.joueurs) {
-						if (p.current.equals(js)) {
-							ArrayList<Carte> carte_jouable = new ArrayList<Carte>();
-							for(Carte c : js.getMain()) {
-								if (p.peutJouerCarte(c)) {
-									carte_jouable.add(c);
-								}
-							}
-							if (carte_jouable.size()==0) {
-								p.piocher(js);
-							}
-							
-							else {
-								Random r = new Random();
-								int idx=r.nextInt(carte_jouable.size());
-								p.poserCarteBot(js, idx);
-								p.passer();
-								
-							}
-							carte_jouable.removeAll(carte_jouable);
-							
-						}
-						if (js.getMain().size()==0) {
-							winner=js;
-							win=true;
-						}
-					}
-				}
-				
-				
 			}
-			System.out.println(winner.toString() + " a gagné!!!!!");
+			System.out.println("fini!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
 		}
+
 	}
+
 
 }
