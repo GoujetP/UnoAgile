@@ -8,6 +8,7 @@ public class Joueur {
 	private List<Carte> main;
 	private int ordre;
 	private Joueur next;
+	private boolean isBot;
 
 	public List<Carte> getMain() {
 		return main;
@@ -17,7 +18,7 @@ public class Joueur {
 		this.main = main;
 	}
 
-	public Joueur(String name) {
+	public Joueur(String name, boolean bot) {
 		super();
 		this.nom=name;
 		this.main =new ArrayList<Carte>();
@@ -75,9 +76,11 @@ public class Joueur {
 	
 	public String toString() {
 		String res=nom +": \n";
-		for(Carte c:main) {
-			res+=c;
-			res+="\n";
+		if(!isBot) {
+			for(Carte c:main) {
+				res+=c;
+				res+="\n";
+			}
 		}
 		
 		return res;
