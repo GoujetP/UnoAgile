@@ -191,15 +191,13 @@ public class Partie {
 	
 	public void trier(Joueur j){
 		ArrayList<Carte> res=new ArrayList<Carte>();
-		int i=j.getNbCarte();
 		Couleur[] ordreC=Couleur.values();
 		Symbole[] ordreS=Symbole.values();
-		while(i!=0) {
-			for(Couleur c:ordreC) {
-				for(Symbole s:ordreS) {
-					if(j.getMain().get(i).getCouleur().equals(c)&&j.getMain().get(i).getSymbole().equals(s)) {
-						res.add(j.getMain().get(i));
-						i--;
+		for(Couleur c:ordreC) {
+			for(Symbole s:ordreS) {
+				for(Carte ca:j.getMain()) {
+					if(ca.getCouleur().equals(c)&&ca.getSymbole().equals(s)) {
+						res.add(ca);
 					}
 				}
 			}
@@ -223,7 +221,6 @@ public class Partie {
 			Partie p = new Partie(j, nb);
 			p.init_partie();
 			p.pioche.toString();
-			System.out.println(p);
 			int cpt = 0;
 			while (!win) {
 				
