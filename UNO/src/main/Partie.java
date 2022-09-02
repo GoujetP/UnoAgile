@@ -109,6 +109,10 @@ public class Partie {
 			piocher(current.getNext());
 		}
 	}
+	
+	public void changementCouleur (Couleur c) {
+		mid_carte.setCouleur(c);
+	}
 
 	public String toString() {
 		String res="Partie: ";
