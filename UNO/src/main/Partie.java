@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 
 public class Partie {
@@ -48,11 +49,71 @@ public class Partie {
 	}
 	
 	
+	public boolean peutJouerCarte(Carte c) {
+		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())|| (c.getCouleur().equals(Couleur.SPECIAL))) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
+	public boolean peutJouer(ArrayList<Carte> main) {
+		for (Carte c : main) {
+			if(peutJouerCarte(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	public Carte choixCarte(Joueur j1) {
+		Carte choix = null;
+		boolean ok;
+		do {
+			ok = false;
+
+			try{
+				@SuppressWarnings("resource")
+				Scanner keyboard = new Scanner(System.in);
+				System.out.println(j1.getMain().toString());
+				System.out.println("Choix de la carte à poser : ");
+				int indexChoix = keyboard.nextInt();
+				choix = j1.getMain().get(indexChoix-1);
+				ok = true;
+			}
+			catch(ArrayIndexOutOfBoundsException e) {
+				ok=false;
+			}
+			catch(Exception e) {
+				ok=false;
+			}
+		}while(!ok);
+		return choix;
+	}
+	
+	
+	public void poserCarte(Joueur j) {
+		Carte choix = choixCarte(j);
+		if (peutJouer(j.getMain())) {
+			while( !peutJouerCarte(choix)) {
+				choix=choixCarte(j);
+				System.out.println(choix);
+			}
+			j.getMain().remove(choix);
+			mid_carte=choix;
+			System.out.println(mid_carte);
+		}
+		else {
+			piocher(j);
+		}
+	}
 	public static void main(String[] args) {
 		Partie partie = new Partie();
 		partie.init_partie();
-		System.out.println(partie.joueur.getMain().toString());
+		partie.poserCarte(partie.joueur);
+		
 	}
 
 }
