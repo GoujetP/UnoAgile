@@ -30,10 +30,10 @@ public class Pioche {
 			for(int j=0; j<4; j++) {
 				if(!s.get(i).equals(Symbole.ZERO)){
 					for(int k=0; k<2; k++) {
-						cartes.add(new Carte(s.get(i),c.get(j)));
+						addCarte(new Carte(s.get(i),c.get(j)));
 					}
 				}else {
-					cartes.add(new Carte(s.get(i),c.get(j)));
+					addCarte(new Carte(s.get(i),c.get(j)));
 				}
 			}
 		}
@@ -41,7 +41,7 @@ public class Pioche {
 		for(int i=13; i<15; i++) {
 			for(int j=4; j<5; j++) {
 				for(int k=0; k<4; k++) {
-					cartes.add(new Carte(s.get(i),c.get(j)));
+					addCarte(new Carte(s.get(i),c.get(j)));
 				}
 			}
 		}
