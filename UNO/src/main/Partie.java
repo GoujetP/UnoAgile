@@ -7,47 +7,13 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Partie {
-	private Pioche pioche;
-	private Joueur bot1;
-	private Joueur bot2;
-	private Joueur joueur;
+	Distrib distrib=new Distrib();
+	ArrayList<Carte> init = distrib.initialDistribution();
 	private Carte mid_carte;
-
-	public Partie() {
-		super();
-		this.pioche = new Pioche();
-		this.bot1 = new Joueur("bot1");
-		this.bot2 = new Joueur("bot2");
-		this.joueur = new Joueur("joueur");
-	}
-
-	public void piocher(Joueur j) {
-		Random r = new Random();
-		Carte c = this.pioche.getCartes().get(r.nextInt(this.pioche.getCartes().size()));
-		j.addCarte(c);
-		this.pioche.getCartes().remove(c);
-
-	}
-
-	public void voirMidCarte() {
-		System.out.println("La carte au milieu est " + mid_carte.toString());
-	}
-
-	public void init_partie() {
-		Distrib distrib = new Distrib();
-		ArrayList<Carte> init = distrib.initialDistribution(pioche.getCartes());
-		for (int i = 0; i < 7; i++) {
-			joueur.addCarte(distrib.distribuer(pioche.getCartes()));
-			bot1.addCarte(distrib.distribuer(pioche.getCartes()));
-			bot2.addCarte(distrib.distribuer(pioche.getCartes()));
-		}
-		mid_carte = distrib.distribuer(pioche.getCartes());
-		voirMidCarte();
-	}
-
 	private ArrayList<Joueur> joueurs;
-	private Joueur current;
+	private Joueur current; 
 
+	
 	public Partie(ArrayList<Joueur> entrée) {
 		joueurs = entrée;
 		Collections.shuffle(joueurs);
@@ -63,7 +29,28 @@ public class Partie {
 		current = joueurs.get(0);
 		next(current);
 	}
+	
+	public void piocher(Joueur j) {
+		Carte c = init.get(init.size()-1);
+		init.remove(c);
+		
+	}
+	
+	public void voirMidCarte() {
+		System.out.println("La carte au milieu est " +mid_carte.toString());
+	}
+	
 
+	public void init_partie() {
+		for(Joueur j:joueurs) {
+			for (int i = 0 ; i <7 ; i++) {
+				j.addCarte( distrib.distribuer(init));
+			}
+		}
+		mid_carte=distrib.distribuer(init);
+		voirMidCarte();
+	}
+	
 	public ArrayList<Joueur> getJoueurs() {
 		return joueurs;
 	}
@@ -112,9 +99,9 @@ public class Partie {
 	}
 
 	public String toString() {
-		String res = "Partie: ";
-		for (Joueur j : joueurs) {
-			res += j.getNom() + ": [" + j.getMain() + "] ";
+		String res="Partie: ";
+		for (Joueur j:joueurs) {
+			res+=j.getNom()+": "+ j.getMain()+"\n";
 		}
 		res += "\n";
 		res += "joueur: " + current + "\n";
@@ -174,22 +161,20 @@ public class Partie {
 	}
 
 	public static void main(String[] args) {
-		Partie partie = new Partie();
+		
+		Partie partie = new Partie(new ArrayList<Joueur>());
 		partie.init_partie();
-		partie.poserCarte(partie.joueur);
-
-		System.out.println(partie.joueur.getMain().toString());
-		String name = "";
-		int nb = 0;
+		String name="";
+		int nb=0;
 		try (Scanner sc = new Scanner(System.in)) {
 			System.out.println("Veuillez entrer votre pseudo:");
 			name = sc.nextLine();
-			System.out.println("Bienvenue, " + name + "!");
-			System.out.println("Combien de joueurs(sans vous compter)?");
-			nb = Integer.parseInt(sc.nextLine());
-			nb = 3; // à changer
-			Joueur j = new Joueur(name, new ArrayList<Carte>());
-			Partie p = new Partie(j, nb);
+			System.out.println("Bienvenue, " + name +"!");
+			System.out.println("Vous êtes contre 3 bots.");
+			nb=3; 
+			Joueur j=new Joueur(name);
+			Partie p=new Partie(j,nb);
+			p.init_partie();
 			System.out.println(p);
 			p.reverse();
 			System.out.println(p);
