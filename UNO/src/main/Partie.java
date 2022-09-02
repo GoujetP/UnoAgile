@@ -34,6 +34,7 @@ public class Partie {
 		System.out.println("La carte au milieu est " +mid_carte.toString());
 	}
 	
+
 	public void init_partie() {
 		Distrib distrib = new Distrib();
 		ArrayList<Carte> init = distrib.initialDistribution(pioche.getCartes());
@@ -53,4 +54,5 @@ public class Partie {
 		partie.init_partie();
 		System.out.println(partie.joueur.getMain().toString());
 	}
+
 }
