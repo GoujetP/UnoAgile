@@ -17,6 +17,7 @@ public class Partie {
 	public Partie(ArrayList<Joueur> entrée) {
 		joueurs=entrée;
 		Collections.shuffle(joueurs);
+		current=joueurs.get(0);
 	}
 	
 	public Partie(Joueur j, int places) {
@@ -103,10 +104,101 @@ public class Partie {
 		joueurSuivant();
 	}
 	
+	public boolean verifierWin() {
+		boolean res=false;
+		for(Joueur j:joueurs) {
+			if(j.getNbCarte()==0) {
+				res=true;
+			}
+		}
+		return res;
+	}
+	
+	public boolean peutJouerCarte(Carte c) {
+		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())
+				|| (c.getCouleur().equals(Couleur.SPECIAL))) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean peutJouer(Joueur j) {
+		for (Carte c : j.getMain()) {
+			if (peutJouerCarte(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	public Carte choixCarte(Joueur j1) {
+		/*
+		Carte choix = null;
+		boolean ok;
+		do {
+			ok = false;
+
+			try {
+				@SuppressWarnings("resource")
+				Scanner keyboard = new Scanner(System.in);
+				System.out.println(j1.getMain().toString());
+				System.out.println("Choix de la carte à poser : ");
+				int indexChoix = keyboard.nextInt();
+				choix = j1.getMain().get(indexChoix - 1);
+				ok = true;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				ok = false;
+			} catch (Exception e) {
+				ok = false;
+			}
+		} while (!ok);
+		return choix;
+		*/
+		
+		Carte choix=null;
+		boolean posee=false;
+		boolean pioche=false;
+		try {
+			Scanner keyboard = new Scanner(System.in);
+			System.out.println("Choix de la carte à poser : ");
+			int indexChoix = keyboard.nextInt();
+			choix = j1.getMain().get(indexChoix - 1);
+		}catch (ArrayIndexOutOfBoundsException e) {};
+		if (peutJouerCarte(choix)) {
+			
+		}
+	}
+
+	public void poserCarte(Joueur j) {
+		Carte choix = choixCarte(j);
+		if (peutJouer(j.getMain())) {
+			while (!peutJouerCarte(choix)) {
+				choix = choixCarte(j);
+				System.out.println(choix);
+			}
+			j.getMain().remove(choix);
+			mid_carte = choix;
+			System.out.println(mid_carte);
+		} else {
+			piocher(j);
+		}
+	}
+	
+	public void poserCarteBot(Joueur bot,int index) {
+		Carte choix = bot.getMain().get(index);
+		if (peutJouerCarte(bot.getMain().get(index))) {
+			bot.getMain().remove(choix);
+			mid_carte = choix;
+			System.out.println(mid_carte);
+		}
+		
+	}
+
+	
 	public static void main(String[] args) {
 		
-		Partie partie = new Partie(new ArrayList<Joueur>());
-		partie.init_partie();
 		String name="";
 		int nb=0;
 		try (Scanner sc = new Scanner(System.in)) {
@@ -118,13 +210,17 @@ public class Partie {
 			Joueur j=new Joueur(name);
 			Partie p=new Partie(j,nb);
 			p.init_partie();
-			System.out.println(p);
-			p.reverse();
-			System.out.println(p);
-			p.joueurSuivant();
-			System.out.println(p);
-			p.passer();
-			System.out.println(p);
+			
+			while(!p.verifierWin()) {
+				if(p.current.equals(j)) {
+					System.out.println("Voici votre main: \n");
+					System.out.println(j);
+					
+				}else {
+					j.setMain(new ArrayList<Carte>());
+				}
+			}
+			System.out.println("fini!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
 		}
