@@ -224,7 +224,6 @@ public class Partie {
 			p.init_partie();
 			p.pioche.toString();
 			System.out.println(p);
-			/*
 			int cpt = 0;
 			while (!win) {
 				
@@ -298,13 +297,12 @@ public class Partie {
 				cpt++;
 
 			}
-			*/
 			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
-		} catch (InterruptedException e1) {
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			System.out.println("bug sleep");;
+			e.printStackTrace();
 		}
 	}
 
