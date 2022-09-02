@@ -4,7 +4,7 @@ public class Carte {
 	private Symbole symbole;
 	private Couleur couleur;
 	private int id;
-	private static int NUM=1; 
+	public static int NUM=1; 
 	
 	public Carte(Symbole symbole, Couleur couleur) {
 		super();
