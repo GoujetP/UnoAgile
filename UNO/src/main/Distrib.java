@@ -11,7 +11,7 @@ public class Distrib {
 		//int size =input.size();
 		for(Carte c:input) {
 			temp=c;
-			place=r.nextInt();
+			place=r.nextInt(input.size());
 			c= input.get(place);
 			input.set(place,temp);
 		}
