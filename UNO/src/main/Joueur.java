@@ -74,7 +74,12 @@ public class Joueur {
 	}
 	
 	public String toString() {
-		return nom;
+		String res=nom +": \n";
+		for(Carte c:main) {
+			res+=c;
+			res+="\n";
+		}
 		
+		return res;
 	}
 }

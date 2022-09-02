@@ -105,16 +105,22 @@ public class Partie {
 		}
 	}
 	
-	public void plus4() {
+	public void plus4(Couleur c) {
 		for(int i=0; i<4; i++) {
 			piocher(current.getNext());
 		}
+		
+		changementCouleur(c);
+	}
+	
+	public void changementCouleur (Couleur c) {
+		mid_carte.setCouleur(c);
 	}
 
 	public String toString() {
-		String res="Partie: ";
+		String res="Partie: \n";
 		for (Joueur j:joueurs) {
-			res+=j.getNom()+": "+ j.getMain()+"\n";
+			res+=j;
 		}
 		res += "\n";
 		res += "joueur: " + current + "\n";
