@@ -3,8 +3,10 @@ package main;
 import java.util.ArrayList;
 
 public class Joueur {
+	private String nom;
 	private ArrayList<Carte> main;
 	private int ordre;
+	private Joueur next;
 
 	public ArrayList<Carte> getMain() {
 		return main;
@@ -14,8 +16,9 @@ public class Joueur {
 		this.main = main;
 	}
 
-	public Joueur(ArrayList<Carte> main) {
+	public Joueur(String name, ArrayList<Carte> main) {
 		super();
+		this.nom=name;
 		this.main = main;
 		this.ordre=0;
 	}
@@ -44,5 +47,26 @@ public class Joueur {
 	
 	public int getNbCarte(){
 		return this.main.size();
+	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+
+	public Joueur getNext() {
+		return next;
+	}
+
+	public void setNext(Joueur next) {
+		this.next = next;
+	}
+	
+	public String toString() {
+		return nom;
+		
 	}
 }

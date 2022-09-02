@@ -1,12 +1,12 @@
 package main;
-
-import java.util.ArrayList;
 import java.util.Random;
+import java.util.ArrayList;
+
 
 public class Distrib {
 	public ArrayList<Carte> initialDistribution(ArrayList<Carte> input){
 		Carte temp;
-		Random r = null;
+		Random r = new Random();
 		int place;
 		//int size =input.size();
 		for(Carte c:input) {
