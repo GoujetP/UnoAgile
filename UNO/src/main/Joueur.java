@@ -14,9 +14,9 @@ public class Joueur {
 		this.main = main;
 	}
 
-	public Joueur(ArrayList<Carte> main) {
+	public Joueur() {
 		super();
-		this.main = main;
+		this.main = new ArrayList<Carte>();
 		this.ordre=0;
 	}
 
