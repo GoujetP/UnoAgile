@@ -15,18 +15,18 @@ public class Partie {
 
 	
 	public Partie(ArrayList<Joueur> entrée) {
-		joueurs=entrée;
+		joueurs = entrée;
 		Collections.shuffle(joueurs);
 	}
-	
+
 	public Partie(Joueur j, int places) {
-		joueurs=new ArrayList<Joueur>();
+		joueurs = new ArrayList<Joueur>();
 		joueurs.add(j);
-		for(int i=0; i<places; i++) {
-			joueurs.add(new Joueur("bot"+i, new ArrayList<Carte>()));
+		for (int i = 0; i < places; i++) {
+			joueurs.add(new Joueur("bot" + i, new ArrayList<Carte>()));
 		}
 		Collections.shuffle(joueurs);
-		current=joueurs.get(0);
+		current = joueurs.get(0);
 		next(current);
 	}
 	
@@ -58,51 +58,108 @@ public class Partie {
 	public void setJoueurs(ArrayList<Joueur> joueurs) {
 		this.joueurs = joueurs;
 	}
-	
-	public void reverse() {
-	    for (int i = 0; i < joueurs.size() / 2; i++) {
-	        Joueur temp = joueurs.get(i);
-	        joueurs.set(i, joueurs.get(joueurs.size() - 1 - i));
-	        joueurs.set(joueurs.size() - 1 - i, temp);
-	    }
-	    next(current);
-	    System.out.println("Le joueur suivant est désormais: "+ current.getNext());
-	    joueurSuivant();
+
+	public boolean peutJouerCarte(Carte c) {
+		if (c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole())
+				|| (c.getCouleur().equals(Couleur.SPECIAL))) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
+
+	public boolean peutJouer(List<Carte> main) {
+		for (Carte c : main) {
+			if (peutJouerCarte(c)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void reverse() {
+		for (int i = 0; i < joueurs.size() / 2; i++) {
+			Joueur temp = joueurs.get(i);
+			joueurs.set(i, joueurs.get(joueurs.size() - 1 - i));
+			joueurs.set(joueurs.size() - 1 - i, temp);
+		}
+		next(current);
+		System.out.println("Le joueur suivant est désormais: " + current.getNext());
+		joueurSuivant();
+	}
+
 	public void next(Joueur j) {
-		int idx=joueurs.indexOf(j);
-		if((idx+1)==joueurs.size()) {
-			idx=0;
-		}else {
+		int idx = joueurs.indexOf(j);
+		if ((idx + 1) == joueurs.size()) {
+			idx = 0;
+		} else {
 			idx++;
 		}
 		j.setNext(joueurs.get(idx));
 	}
-	
+
 	public String toString() {
 		String res="Partie: ";
 		for (Joueur j:joueurs) {
 			res+=j.getNom()+": "+ j.getMain()+"\n";
 		}
-		res+="\n"; 
-		res+="joueur: " + current +"\n";
-		res+="joueur suivant: " + current.getNext();
+		res += "\n";
+		res += "joueur: " + current + "\n";
+		res += "joueur suivant: " + current.getNext();
 		return res;
 	}
-	
+
 	public void joueurSuivant() {
 		next(current);
-		current=current.getNext();
+		current = current.getNext();
 		next(current);
 	}
-	
+
 	public void passer() {
 		joueurSuivant();
-		System.out.println("Le joueur suivant est désormais: "+ current.getNext());
+		System.out.println("Le joueur suivant est désormais: " + current.getNext());
 		joueurSuivant();
+
 	}
-	
+
+	public Carte choixCarte(Joueur j1) {
+		Carte choix = null;
+		boolean ok;
+		do {
+			ok = false;
+
+			try {
+				@SuppressWarnings("resource")
+				Scanner keyboard = new Scanner(System.in);
+				System.out.println(j1.getMain().toString());
+				System.out.println("Choix de la carte à poser : ");
+				int indexChoix = keyboard.nextInt();
+				choix = j1.getMain().get(indexChoix - 1);
+				ok = true;
+			} catch (ArrayIndexOutOfBoundsException e) {
+				ok = false;
+			} catch (Exception e) {
+				ok = false;
+			}
+		} while (!ok);
+		return choix;
+	}
+
+	public void poserCarte(Joueur j) {
+		Carte choix = choixCarte(j);
+		if (peutJouer(j.getMain())) {
+			while (!peutJouerCarte(choix)) {
+				choix = choixCarte(j);
+				System.out.println(choix);
+			}
+			j.getMain().remove(choix);
+			mid_carte = choix;
+			System.out.println(mid_carte);
+		} else {
+			piocher(j);
+		}
+	}
+
 	public static void main(String[] args) {
 		
 		Partie partie = new Partie(new ArrayList<Joueur>());
@@ -128,7 +185,6 @@ public class Partie {
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
 		}
-
 	}
 
 }
