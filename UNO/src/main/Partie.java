@@ -7,7 +7,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Partie {
-	private Pioche pioche;
+	Distrib distrib=new Distrib();
+	ArrayList<Carte> init = distrib.initialDistribution();
 	private Carte mid_carte;
 	private ArrayList<Joueur> joueurs;
 	private Joueur current; 
@@ -16,7 +17,6 @@ public class Partie {
 	public Partie(ArrayList<Joueur> entrée) {
 		joueurs=entrée;
 		Collections.shuffle(joueurs);
-		pioche=new Pioche();
 	}
 	
 	public Partie(Joueur j, int places) {
@@ -28,14 +28,11 @@ public class Partie {
 		Collections.shuffle(joueurs);
 		current=joueurs.get(0);
 		next(current);
-		pioche=new Pioche();
 	}
 	
 	public void piocher(Joueur j) {
-		Random r = new Random();
-		Carte c = this.pioche.getCartes().get(r.nextInt(this.pioche.getCartes().size()));
-		j.addCarte(c);
-		this.pioche.getCartes().remove(c);
+		Carte c = init.get(init.size()-1);
+		init.remove(c);
 		
 	}
 	
@@ -45,14 +42,12 @@ public class Partie {
 	
 
 	public void init_partie() {
-		Distrib distrib = new Distrib();
-		ArrayList<Carte> init = distrib.initialDistribution(pioche.getCartes());
 		for(Joueur j:joueurs) {
 			for (int i = 0 ; i <7 ; i++) {
-				j.addCarte(distrib.distribuer(pioche.getCartes()));
+				j.addCarte( distrib.distribuer(init));
 			}
 		}
-		mid_carte=distrib.distribuer(pioche.getCartes());
+		mid_carte=distrib.distribuer(init);
 		voirMidCarte();
 	}
 	
@@ -88,7 +83,7 @@ public class Partie {
 	public String toString() {
 		String res="Partie: ";
 		for (Joueur j:joueurs) {
-			res+=j.getNom()+": "+ j.getMain();
+			res+=j.getNom()+": "+ j.getMain()+"\n";
 		}
 		res+="\n"; 
 		res+="joueur: " + current +"\n";
@@ -109,6 +104,7 @@ public class Partie {
 	}
 	
 	public static void main(String[] args) {
+		
 		Partie partie = new Partie(new ArrayList<Joueur>());
 		partie.init_partie();
 		String name="";
@@ -121,6 +117,7 @@ public class Partie {
 			nb=3; 
 			Joueur j=new Joueur(name);
 			Partie p=new Partie(j,nb);
+			p.init_partie();
 			System.out.println(p);
 			p.reverse();
 			System.out.println(p);

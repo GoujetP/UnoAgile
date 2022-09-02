@@ -18,6 +18,7 @@ public class Pioche {
 	}
 	
 	public Pioche() {
+		Carte.NUM=1;
 		ArrayList<Symbole> s=new ArrayList<Symbole>();
 		for(Symbole sym:Symbole.values()) {
 			s.add(sym);
