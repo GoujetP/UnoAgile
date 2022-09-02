@@ -88,7 +88,7 @@ public class Partie {
 			joueurs.set(joueurs.size() - 1 - i, temp);
 		}
 		next(current);
-		System.out.println("Le joueur suivant est désormais: " + current.getNext());
+		System.out.println("Le joueur suivant est désormais: " + current.getNext().getNom());
 		joueurSuivant();
 	}
 
@@ -206,6 +206,8 @@ public class Partie {
 	}
 
 	public static void main(String[] args) {
+		boolean deja_passe =false;
+		boolean deja_passe2 =false;
 		boolean win = false;
 		Joueur winner = new Joueur("winner_test", false);
 		String name = "";
@@ -220,25 +222,28 @@ public class Partie {
 			Joueur reel = j;
 			Partie p = new Partie(j, nb);
 			p.init_partie();
-			p.pioche.toString();
-			System.out.println(p);
+			
 			int cpt = 0;
+			int cpt2 = 0;
 			while (!win) {
-				
-				TimeUnit.SECONDS.sleep(4);
 				p.voirMidCarte();
+				TimeUnit.SECONDS.sleep(4);
+				
 				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE)){
 					p.reverse();
+					p.joueurSuivant();
 					p.joueurSuivant();
 				}
 				else if (p.mid_carte.getSymbole().equals(Symbole.PASSER)) {
 					p.passer();
 				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS2)) {
+				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !deja_passe  ) {
 					p.plus2();
 					p.joueurSuivant();
+					cpt++;
+					deja_passe=true;
 				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)) {
+				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !deja_passe ) {
 					Couleur c = Couleur.ROUGE;
 					System.out.println("Quelle couleur jefe ? V pur Vert , B pour Bleu , R pour Rouge , J pur Jaune");
 					Scanner sc1 = new Scanner(System.in);
@@ -250,6 +255,9 @@ public class Partie {
 					}
 					p.plus4(c);
 					p.joueurSuivant();
+					cpt2++;
+					deja_passe2=true;
+					
 				}
 				else if (p.mid_carte.getSymbole().equals(Symbole.JOKER)) {
 					Couleur c = Couleur.ROUGE;
@@ -292,7 +300,13 @@ public class Partie {
 					winner = p.current;
 					win = true;
 				}
-				cpt++;
+				if (cpt==2) {
+					deja_passe=false;
+				}
+				if (cpt2==2) {
+					deja_passe2=false;
+				}
+				
 
 			}
 			System.out.println(winner.toString() + " a gagné!!!!!");
