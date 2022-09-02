@@ -97,6 +97,18 @@ public class Partie {
 		}
 		j.setNext(joueurs.get(idx));
 	}
+	
+	public void plus2() {
+		for(int i=0; i<2; i++) {
+			piocher(current.getNext());
+		}
+	}
+	
+	public void plus4() {
+		for(int i=0; i<4; i++) {
+			piocher(current.getNext());
+		}
+	}
 
 	public String toString() {
 		String res="Partie: ";
