@@ -22,6 +22,13 @@ public class Joueur {
 		this.main = main;
 		this.ordre=0;
 	}
+	
+	public Joueur(String name) {
+		super();
+		this.nom=name;
+		this.main = new ArrayList<Carte>();
+		this.ordre=0;
+	}
 
 	public int getOrdre() {
 		return ordre;
