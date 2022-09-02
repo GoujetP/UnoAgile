@@ -104,10 +104,12 @@ public class Partie {
 		}
 	}
 	
-	public void plus4() {
+	public void plus4(Couleur c) {
 		for(int i=0; i<4; i++) {
 			piocher(current.getNext());
 		}
+		
+		changementCouleur(c);
 	}
 	
 	public void changementCouleur (Couleur c) {
@@ -115,9 +117,9 @@ public class Partie {
 	}
 
 	public String toString() {
-		String res="Partie: ";
+		String res="Partie:";
 		for (Joueur j:joueurs) {
-			res+=j.getNom()+": "+ j.getMain()+"\n";
+			res+=j.getNom()+": \n ------------------------"+ j.getMain()+"------------------------\n";
 		}
 		res += "\n";
 		res += "joueur: " + current + "\n";
