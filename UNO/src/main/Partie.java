@@ -9,7 +9,7 @@ public class Partie {
 	private Joueur bot1;
 	private Joueur bot2;
 	private Joueur joueur;
-	
+	private Carte mid_carte;
 	
 	
 	public Partie() {
@@ -30,6 +30,10 @@ public class Partie {
 		
 	}
 	
+	public void voirMidCarte() {
+		System.out.println("La carte au milieu est " +mid_carte.toString());
+	}
+	
 	
 	public static void main(String[] args) {
 		Distrib distrib = new Distrib();
@@ -41,6 +45,8 @@ public class Partie {
 			partie.bot2.addCarte(distrib.distribuer(partie.pioche.getCartes()));
 		}
 		System.out.println(partie.joueur.getMain().toString());
+		partie.mid_carte=distrib.distribuer(partie.pioche.getCartes());
+		partie.voirMidCarte();
 		partie.piocher(partie.joueur);
 		System.out.println(partie.joueur.getMain().toString());
 	}
