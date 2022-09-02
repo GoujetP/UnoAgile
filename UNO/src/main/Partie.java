@@ -186,10 +186,28 @@ public class Partie {
 		mid_carte = choix;
 		System.out.println(bot.getNom()+" a joué "+choix);
 	}
+	
+	public void trier(Joueur j){
+		ArrayList<Carte> res=new ArrayList<Carte>();
+		int i=j.getNbCarte();
+		Couleur[] ordreC=Couleur.values();
+		Symbole[] ordreS=Symbole.values();
+		while(i!=0) {
+			for(Couleur c:ordreC) {
+				for(Symbole s:ordreS) {
+					if(j.getMain().get(i).getCouleur().equals(c)&&j.getMain().get(i).getSymbole().equals(s)) {
+						res.add(j.getMain().get(i));
+						i--;
+					}
+				}
+			}
+		}
+		j.setMain(res);
+	}
 
 	public static void main(String[] args) {
 		boolean win = false;
-		Joueur winner = new Joueur("winner_test");
+		Joueur winner = new Joueur("winner_test", false);
 		String name = "";
 		int nb = 0;
 		try (Scanner sc = new Scanner(System.in)) {
@@ -198,11 +216,12 @@ public class Partie {
 			System.out.println("Bienvenue, " + name + "!");
 			System.out.println("Vous êtes contre 3 bots.");
 			nb = 3;
-			Joueur j = new Joueur(name);
+			Joueur j = new Joueur(name, false);
 			Joueur reel = j;
 			Partie p = new Partie(j, nb);
 			p.init_partie();
 			p.pioche.toString();
+			System.out.println(p);
 			int cpt = 0;
 			while (!win) {
 				
@@ -279,9 +298,9 @@ public class Partie {
 			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
-		} catch (InterruptedException e1) {
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			System.out.println("bug sleep");;
+			e.printStackTrace();
 		}
 	}
 
