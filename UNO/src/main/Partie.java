@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Partie {
 	Distrib distrib=new Distrib();
-	ArrayList<Carte> init = distrib.initialDistribution();
+	ArrayList<Carte> pioche = distrib.initialDistribution();
 	private Carte mid_carte;
 	private ArrayList<Joueur> joueurs;
 	private Joueur current; 
@@ -31,8 +31,9 @@ public class Partie {
 	}
 	
 	public void piocher(Joueur j) {
-		Carte c = init.get(init.size()-1);
-		init.remove(c);
+		Carte c = pioche.get(pioche.size()-1);
+		pioche.remove(c);
+		j.addCarte(c);
 		
 	}
 	
@@ -44,10 +45,10 @@ public class Partie {
 	public void init_partie() {
 		for(Joueur j:joueurs) {
 			for (int i = 0 ; i <7 ; i++) {
-				j.addCarte( distrib.distribuer(init));
+				j.addCarte( distrib.distribuer(pioche));
 			}
 		}
-		mid_carte=distrib.distribuer(init);
+		mid_carte=distrib.distribuer(pioche);
 		voirMidCarte();
 	}
 	
@@ -171,11 +172,20 @@ public class Partie {
 			piocher(j);
 		}
 	}
+	
+	public void poserCarteBot(Joueur bot,int index) {
+		Carte choix = bot.getMain().get(index);
+		if (peutJouerCarte(bot.getMain().get(index))) {
+			bot.getMain().remove(choix);
+			mid_carte = choix;
+			System.out.println(mid_carte);
+		}
+		
+	}
 
 	public static void main(String[] args) {
-		
-		Partie partie = new Partie(new ArrayList<Joueur>());
-		partie.init_partie();
+		boolean win = false;
+		Joueur winner = new Joueur("winner_test");
 		String name="";
 		int nb=0;
 		try (Scanner sc = new Scanner(System.in)) {
@@ -187,13 +197,44 @@ public class Partie {
 			Joueur j=new Joueur(name);
 			Partie p=new Partie(j,nb);
 			p.init_partie();
-			System.out.println(p);
-			p.reverse();
-			System.out.println(p);
-			p.joueurSuivant();
-			System.out.println(p);
-			p.passer();
-			System.out.println(p);
+			while (!win) {
+				if (p.current.equals(j)) {
+					p.poserCarte(j);
+					p.passer();
+				}
+				else {
+					for (Joueur js : p.joueurs) {
+						if (p.current.equals(js)) {
+							ArrayList<Carte> carte_jouable = new ArrayList<Carte>();
+							for(Carte c : js.getMain()) {
+								if (p.peutJouerCarte(c)) {
+									carte_jouable.add(c);
+								}
+							}
+							if (carte_jouable.size()==0) {
+								p.piocher(js);
+							}
+							
+							else {
+								Random r = new Random();
+								int idx=r.nextInt(carte_jouable.size());
+								p.poserCarteBot(js, idx);
+								p.passer();
+								
+							}
+							carte_jouable.removeAll(carte_jouable);
+							
+						}
+						if (js.getMain().size()==0) {
+							winner=js;
+							win=true;
+						}
+					}
+				}
+				
+				
+			}
+			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
 		}
