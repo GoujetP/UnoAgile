@@ -25,6 +25,9 @@ public class Partie {
 		next(current);
 		pioche = distrib.initialDistribution();
 	}
+	
+	
+	
 
 	public void piocher(Joueur j) {
 		Carte c = this.pioche.get(this.pioche.size() - 1);
@@ -178,11 +181,11 @@ public class Partie {
 
 	}
 
-	public void poserCarteBot(Joueur bot, int index) throws InterruptedException {
+	public void poserCarteBot(Joueur bot, int index){
 		Carte choix = bot.getMain().get(index);
 		bot.getMain().remove(choix);
 		mid_carte = choix;
-		TimeUnit.SECONDS.sleep(4);
+		
 		System.out.println(bot.getNom()+" a joué "+choix);
 	}
 
@@ -204,13 +207,52 @@ public class Partie {
 			p.pioche.toString();
 			int cpt = 0;
 			while (!win) {
+				
+				TimeUnit.SECONDS.sleep(4);
 				p.voirMidCarte();
-				if (p.current.equals(reel)) {
+				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE)){
+					p.reverse();
+					p.joueurSuivant();
+				}
+				else if (p.mid_carte.getSymbole().equals(Symbole.PASSER)) {
+					p.passer();
+				}
+				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS2)) {
+					p.plus2();
+					p.joueurSuivant();
+				}
+				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)) {
+					Couleur c = Couleur.ROUGE;
+					System.out.println("Quelle couleur jefe ? V pur Vert , B pour Bleu , R pour Rouge , J pur Jaune");
+					Scanner sc1 = new Scanner(System.in);
+					String color = sc1.nextLine();
+					for (Couleur co: Couleur.values()) {
+						if (co.equals(color)){
+							c=co;
+						}
+					}
+					p.plus4(c);
+					p.joueurSuivant();
+				}
+				else if (p.mid_carte.getSymbole().equals(Symbole.JOKER)) {
+					Couleur c = Couleur.ROUGE;
+					System.out.println("Quelle couleur jefe ? V pur Vert , B pour Bleu , R pour Rouge , J pur Jaune");
+					Scanner sc1 = new Scanner(System.in);
+					String color = sc1.nextLine();
+					for (Couleur co: Couleur.values()) {
+						if (co.equals(color)){
+							c=co;
+						}
+					}
+					p.joueurSuivant();
+				}
+				else if (p.current.equals(reel)) {
 					if (p.peutJouer(p.current.getMain())) {
 						p.poserCarte(reel);
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
+						p.joueurSuivant();
 					}
 				} else {
 					if (p.peutJouer(p.current.getMain())) {
@@ -222,16 +264,11 @@ public class Partie {
 						}
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
-
-						try {
-							p.poserCarteBot(p.current, idx);
-						} catch (InterruptedException e) {
-							System.out.println("bug sleep");
-
-						}
+						p.poserCarteBot(p.current, idx);
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
+						p.joueurSuivant();
 					}
 				}
 				if (p.current.getMain().size() == 0) {
@@ -244,6 +281,9 @@ public class Partie {
 			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			System.out.println("bug sleep");;
 		}
 	}
 
