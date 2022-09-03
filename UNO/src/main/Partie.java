@@ -60,11 +60,13 @@ public class Partie {
 	}
 
 	public boolean peutJouerCarte(Carte c) {
-		if (c.getCouleur().equals(mid_carte.getCouleur())) {
-			return true;
-		} else if (c.getSymbole().equals(mid_carte.getSymbole())) {
-			return true;
-		} else if (c.getCouleur().equals(Couleur.SPECIAL)) {
+		if ((c.getCouleur().equals(mid_carte.getCouleur()) || c.getSymbole().equals(mid_carte.getSymbole()) || c.getCouleur().equals(Couleur.SPECIAL))) {
+			if (c.getSymbole().equals(Symbole.PLUS2) && mid_carte.getSymbole().equals(Symbole.PLUS2)) {
+				return false;
+			}
+			else if (c.getSymbole().equals(Symbole.PLUS4) && mid_carte.getSymbole().equals(Symbole.PLUS4)) {
+				return false;
+			}
 			return true;
 		} else {
 			return false;
@@ -139,7 +141,7 @@ public class Partie {
 
 	public void passer() {
 		joueurSuivant();
-		System.out.println("Le joueur suivant est désormais: " + current.getNext());
+		System.out.println("Le joueur suivant est désormais: " + current.getNext().getNom());
 		joueurSuivant();
 
 	}
@@ -180,8 +182,8 @@ public class Partie {
 
 	}
 
-	public void poserCarteBot(Joueur bot, int index){
-		Carte choix = bot.getMain().get(index);
+	public void poserCarteBot(Joueur bot, int index , ArrayList<Carte> jouable){
+		Carte choix =jouable.get(index);
 		bot.getMain().remove(choix);
 		mid_carte = choix;
 		System.out.println(bot.getNom()+" a joué "+choix);
@@ -204,8 +206,11 @@ public class Partie {
 	}
 
 	public static void main(String[] args) {
-		boolean deja_passe =false;
-		boolean deja_passe2 =false;
+		boolean plus2 =false;
+		boolean plus4 =false;
+		boolean joker =false;
+		boolean passer = false;
+		boolean reverse = false;
 		boolean win = false;
 		Joueur winner = new Joueur("winner_test", false);
 		String name = "";
@@ -220,55 +225,36 @@ public class Partie {
 			Joueur reel = j;
 			Partie p = new Partie(j, nb);
 			p.init_partie();
-			int cpt = 0;
-			int cpt2 = 0;
+			int cpt_plus2 = 0;
+			int cpt_plus4 = 0;
+			int cpt_joker = 0;
+			int cpt_passer = 0;
+			int cpt_reverse = 0;
+			
 			while (!win) {
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
 				
-				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE)){
+				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE) && !reverse){
 					p.reverse();
 					p.joueurSuivant();
 					p.joueurSuivant();
+					reverse= true;
+					cpt_reverse++;
 				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.PASSER)) {
+				 if (p.mid_carte.getSymbole().equals(Symbole.PASSER) && !passer) {
 					p.passer();
+					passer=true;
+					cpt_passer++;
 				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !deja_passe  ) {
+				 if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !plus2  ) {
 					p.plus2();
 					p.joueurSuivant();
-					cpt++;
-					deja_passe=true;
+					cpt_plus2++;
+					plus2=true;
 				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !deja_passe ) {
-					Couleur c = Couleur.ROUGE;
-					System.out.println("Quelle couleur jefe ? V pur Vert , B pour Bleu , R pour Rouge , J pur Jaune");
-					Scanner sc1 = new Scanner(System.in);
-					String color = sc1.nextLine();
-					for (Couleur co: Couleur.values()) {
-						if (co.equals(color)){
-							c=co;
-						}
-					}
-					p.plus4(c);
-					p.joueurSuivant();
-					cpt2++;
-					deja_passe2=true;
-					
-				}
-				else if (p.mid_carte.getSymbole().equals(Symbole.JOKER)) {
-					Couleur c = Couleur.ROUGE;
-					System.out.println("Quelle couleur jefe ? V pur Vert , B pour Bleu , R pour Rouge , J pur Jaune");
-					Scanner sc1 = new Scanner(System.in);
-					String color = sc1.nextLine();
-					for (Couleur co: Couleur.values()) {
-						if (co.equals(color)){
-							c=co;
-						}
-					}
-					p.joueurSuivant();
-				}
-				else if (p.current.equals(reel)) {
+				
+				 if (p.current.equals(reel)) {
 					if (p.peutJouer(p.current.getMain())) {
 						p.poserCarte(reel);
 						p.joueurSuivant();
@@ -284,9 +270,10 @@ public class Partie {
 								carte_jouable.add(c);
 							}
 						}
+						
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
-						p.poserCarteBot(p.current, idx);
+						p.poserCarteBot(p.current, idx , carte_jouable);
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
@@ -297,12 +284,103 @@ public class Partie {
 					winner = p.current;
 					win = true;
 				}
-				if (cpt==2) {
-					deja_passe=false;
+				if (cpt_plus2==1) {
+					plus2=false;
 				}
-				if (cpt2==2) {
-					deja_passe2=false;
+				if (cpt_reverse==1) {
+					reverse=false;
 				}
+				if (cpt_passer==1) {
+					passer=false;
+				}
+				if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !plus4 ) {
+					 if (p.current.equals(reel)) {
+						Couleur c = Couleur.ROUGE;
+						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
+						Scanner sc1 = new Scanner(System.in);
+						String color = sc1.nextLine();
+						while ( !color.equals("V") && !color.equals("B") &&!color.equals("R") && !color.equals("J") ) {
+							System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
+							color = sc1.nextLine();
+		
+						}
+						
+						if (color.equals("V")) {
+							c=Couleur.VERT;
+						}
+						else if (color.equals("B")) {
+							c=Couleur.BLEU;
+						}
+						else if (color.equals("R")) {
+							c=Couleur.ROUGE;
+						}
+						else {
+							c=Couleur.JAUNE;
+						}
+						p.mid_carte.setCouleur(c);
+						p.plus4(c);
+						p.joueurSuivant();
+						cpt_plus4++;
+						plus4=true;
+					 }
+					else {
+						Couleur[] couleur = Couleur.values();
+						Random r = new Random();
+						int idx = r.nextInt(couleur.length);
+						p.mid_carte.setCouleur(couleur[idx]);
+						p.joueurSuivant();
+						cpt_joker++;
+						joker=true;
+					}
+					
+					
+				}
+				if (p.mid_carte.getSymbole().equals(Symbole.JOKER) && !joker) {
+					if (p.current.equals(reel)) {
+						Couleur c = Couleur.ROUGE;
+						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
+						Scanner sc1 = new Scanner(System.in);
+						String color = sc1.nextLine();
+						while ( !color.equals("V") && !color.equals("B") && !color.equals("R") && !color.equals("J") ) {
+							System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
+							color = sc1.nextLine();
+							
+						}
+						
+						if (color.equals("V")) {
+							c=Couleur.VERT;
+						}
+						else if (color.equals("B")) {
+							c=Couleur.BLEU;
+						}
+						else if (color.equals("R")) {
+							c=Couleur.ROUGE;
+						}
+						else {
+							c=Couleur.JAUNE;
+						}
+						p.mid_carte.setCouleur(c);
+						p.joueurSuivant();
+						cpt_joker++;
+						joker=true;
+					}
+					else {
+						Couleur[] couleur = Couleur.values();
+						Random r = new Random();
+						int idx = r.nextInt(couleur.length);
+						p.mid_carte.setCouleur(couleur[idx]);
+						p.joueurSuivant();
+						cpt_joker++;
+						joker=true;
+					}
+				}
+				 
+				 if (cpt_plus4==1) {
+						plus4=false;
+					}
+					if (cpt_joker==1) {
+						joker=false;
+					}
 				
 
 			}
