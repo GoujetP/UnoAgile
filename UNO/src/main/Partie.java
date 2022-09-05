@@ -8,7 +8,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.rules.Timeout;
 
 public class Partie {
 	Distrib distrib = new Distrib();
@@ -220,15 +219,13 @@ public class Partie {
 		Carte choix =jouable.get(index);
 		bot.getMain().getMain().remove(choix);
 		mid_carte = choix;
-		Timeout.seconds(2);
+		//Timeout.seconds(2);
 		System.out.println("\n"+bot.getNom()+" a joué \n"+choix);
-		Timeout.seconds(2);
+		//Timeout.seconds(2);
 		System.out.println("Il lui reste: "+bot.getNbCarte()+" cartes.");
 	}
 
-	
-
-	public static void main(String[] args) {		
+	public static void jouer() {
 		boolean plus2 =false;
 		boolean plus4 =false;
 		boolean joker =false;
@@ -443,6 +440,10 @@ public class Partie {
 		}
 
 		System.out.println(winner.toString() + " a gagné!!!!!");
+	}
+
+	public static void main(String[] args) {		
+		jouer();
 	}
 
 
