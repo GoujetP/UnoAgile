@@ -3,6 +3,7 @@ package main;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,4 +86,70 @@ class TestPartie {
 		assertTrue(p.peutJouer(j2.getMain()));
 	}
 	
+	/*
+	@Test
+	void testReverseEtJoueurSuivant() {
+		Joueur bot1=new Joueur("bot1", true);
+		Joueur bot2=new Joueur("bot2", true);
+		ArrayList<Joueur> joueurs=new ArrayList<Joueur>();
+		joueurs.add(j1);
+		joueurs.add(bot1);
+		joueurs.add(bot2);
+		p.setJoueurs(joueurs);
+		assertEquals(j1,p.current);
+		p.joueurSuivant();
+		assertEquals(p.current, bot1);
+		p.reverse();
+		assertEquals(bot1.getNext(), j1);
+	}
+	*/
+	
+	//ce test ne peut pas être réalisé puisqu'il est basé sur un random, passer le tour aussi
+	
+	@Test
+	
+	void testPlus2et4() {
+		Joueur jtest = p.current;
+		p.plus4(Couleur.VERT);
+		assertEquals(11, jtest.getNext().getNbCarte());
+		p.joueurSuivant();
+		Joueur jtest2 = p.current;
+		p.plus2();
+		assertEquals(9, jtest2.getNext().getNbCarte());
+	}
+	
+	@Test
+	void testPoserCarte() {
+		Carte c=new Carte(Symbole.HUIT, Couleur.ROUGE);
+		p.setMid(new Carte(Symbole.HUIT, Couleur.BLEU));
+		j1.addCarte(c);
+		p.poserCarte(j1);//entrer 8
+		p.joueurSuivant();
+		assertEquals(p.getMid(), c);
+	}
+	
+	@Test
+	void trier() {
+		ArrayList<Carte> cartes = new ArrayList<Carte>();
+		Carte c1=new Carte(Symbole.UN, Couleur.ROUGE);
+		Carte c2=new Carte(Symbole.CINQ, Couleur.BLEU);
+		Carte c3=new Carte(Symbole.PASSER, Couleur.BLEU);
+		Carte c4=new Carte(Symbole.HUIT, Couleur.JAUNE);
+		Carte c5=new Carte(Symbole.JOKER, Couleur.SPECIAL);
+		Carte c6=new Carte(Symbole.PLUS4, Couleur.SPECIAL);
+		cartes.add(c1);
+		cartes.add(c2);
+		cartes.add(c3);
+		cartes.add(c4);
+		cartes.add(c5);
+		cartes.add(c6);
+		Collections.shuffle(cartes);
+		ArrayList<Carte> cartes_triees = new ArrayList<Carte>();
+		cartes_triees.add(c1);
+		cartes_triees.add(c2);
+		cartes_triees.add(c3);
+		cartes_triees.add(c4);
+		cartes_triees.add(c5);
+		cartes_triees.add(c6);
+	}
 }

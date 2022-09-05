@@ -13,7 +13,7 @@ public class Partie {
 	ArrayList<Carte> pioche;
 	private Carte mid_carte;
 	private ArrayList<Joueur> joueurs;
-	private Joueur current;
+	public Joueur current;
 
 	public Partie(Joueur j, int places) {
 		joueurs = new ArrayList<Joueur>();
@@ -202,7 +202,7 @@ public class Partie {
 				choix = choixCarte(j);
 			}
 			j.getMain().remove(choix);
-			mid_carte = choix;
+			setMid(choix);
 			System.out.println("Vous avez posé la carte "+choix+"\n");
 		}
 

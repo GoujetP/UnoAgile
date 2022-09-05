@@ -7,8 +7,10 @@ public enum Symbole {
 	}
 
 	private String affichage;
-	
+	/*
 	public String toString() {
 		return affichage;
 	}
+	*/
+	
 }
