@@ -235,7 +235,10 @@ public class Partie {
 			int cpt_reverse = 0;			
 			while (!win) {
 				if(!p.current.isBot && p.current.getNbCarte()==1) {
-					//scanner
+					//scanner(uno)
+				}
+				else if(p.current.isBot && p.current.getNbCarte()==1) {
+					//scanner(contre uno)
 				}
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
