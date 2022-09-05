@@ -8,12 +8,14 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.rules.Timeout;
+
 public class Partie {
 	Distrib distrib = new Distrib();
 	ArrayList<Carte> pioche;
 	private Carte mid_carte;
 	private ArrayList<Joueur> joueurs;
-	private Joueur current;
+	public Joueur current;
 
 	public Partie(Joueur j, int places) {
 		joueurs = new ArrayList<Joueur>();
@@ -27,9 +29,13 @@ public class Partie {
 		pioche = distrib.initialDistribution();
 	}
 
+	public Carte getMid() {
+		return mid_carte;
+	}
 
-
-
+	public void setMid(Carte c) {
+		mid_carte=c;
+	}
 	public void piocher(Joueur j) {
 		try {
 			TimeUnit.SECONDS.sleep(1);
@@ -197,8 +203,13 @@ public class Partie {
 			while (!peutJouerCarte(choix)) {
 				choix = choixCarte(j);
 			}
+
 			j.getMain().getMain().remove(choix);
 			mid_carte = choix;
+
+			j.getMain().getMain().remove(choix);
+			setMid(choix);
+
 			System.out.println("Vous avez posé la carte "+choix+"\n");
 			System.out.println();
 		}
@@ -209,7 +220,10 @@ public class Partie {
 		Carte choix =jouable.get(index);
 		bot.getMain().getMain().remove(choix);
 		mid_carte = choix;
-		System.out.println(bot.getNom()+" a joué \n"+choix);
+		Timeout.seconds(2);
+		System.out.println("\n"+bot.getNom()+" a joué \n"+choix);
+		Timeout.seconds(2);
+		System.out.println("Il lui reste: "+bot.getNbCarte()+" cartes.");
 	}
 
 	
