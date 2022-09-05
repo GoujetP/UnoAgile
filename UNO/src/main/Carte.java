@@ -31,7 +31,23 @@ public class Carte {
 	}
 	
 	public String toString() {
-		String res=symbole+"  |  "+ couleur +"  |  ";
+		String ansi = "";
+		if (couleur.equals(Couleur.ROUGE)) {
+			ansi = "\u001B[31m";
+		}
+		else if (couleur.equals(Couleur.VERT)) {
+			ansi = "\u001B[32m";
+		}
+		else if (couleur.equals(Couleur.BLEU)) {
+			ansi = "\u001B[34m";
+		}
+		else if  (couleur.equals(Couleur.JAUNE)){
+			ansi = "\u001B[33m";
+		}
+		else {
+			ansi = "\u001B[35m";
+		}
+		String res= ansi+symbole+"\u001B[0m";
 		return res;
 	}
 }
