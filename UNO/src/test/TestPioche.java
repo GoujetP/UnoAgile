@@ -1,8 +1,13 @@
-package main;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
+
+import main.Carte;
+import main.Couleur;
+import main.Pioche;
+import main.Symbole;
 
 class TestPioche {
 

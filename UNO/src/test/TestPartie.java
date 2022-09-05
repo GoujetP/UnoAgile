@@ -1,4 +1,4 @@
-package main;
+package test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +7,12 @@ import java.util.Collections;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import main.Carte;
+import main.Couleur;
+import main.Joueur;
+import main.Partie;
+import main.Symbole;
 
 class TestPartie {
 	

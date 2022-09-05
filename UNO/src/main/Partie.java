@@ -12,7 +12,7 @@ import org.junit.rules.Timeout;
 
 public class Partie {
 	Distrib distrib = new Distrib();
-	ArrayList<Carte> pioche;
+	public ArrayList<Carte> pioche;
 	private Carte mid_carte;
 	private ArrayList<Joueur> joueurs;
 	public Joueur current;
@@ -186,7 +186,7 @@ public class Partie {
 				System.out.println("Choix de la carte à poser : ");
 				System.out.println("-------------------------------------------------\n");
 				int indexChoix = keyboard.nextInt();
-				choix = j1.getMain().getMain().get(indexChoix - 1);
+				choix = j1.getMain().get(indexChoix - 1);
 				ok = true;
 			} catch (ArrayIndexOutOfBoundsException e) {
 				ok = false;
@@ -199,15 +199,15 @@ public class Partie {
 
 	public void poserCarte(Joueur j) {
 		Carte choix = choixCarte(j);
-		if (peutJouer(j.getMain().getMain())) {
+		if (peutJouer(j.getMain())) {
 			while (!peutJouerCarte(choix)) {
 				choix = choixCarte(j);
 			}
 
-			j.getMain().getMain().remove(choix);
+			j.getMain().remove(choix);
 			mid_carte = choix;
 
-			j.getMain().getMain().remove(choix);
+			j.getMain().remove(choix);
 			setMid(choix);
 
 			System.out.println("Vous avez posé la carte "+choix+"\n");
@@ -218,7 +218,7 @@ public class Partie {
 
 	public void poserCarteBot(Joueur bot, int index , ArrayList<Carte> jouable){
 		Carte choix =jouable.get(index);
-		bot.getMain().getMain().remove(choix);
+		bot.getMain().remove(choix);
 		mid_carte = choix;
 		Timeout.seconds(2);
 		System.out.println("\n"+bot.getNom()+" a joué \n"+choix);
@@ -275,7 +275,7 @@ public class Partie {
 				}
 
 				if (p.current.equals(reel)) {
-					if (p.peutJouer(p.current.getMain().getMain())) {
+					if (p.peutJouer(p.current.getMain())) {
 						p.poserCarte(reel);
 						if (p.current.getNbCarte() == 1) {
 							Scanner keyboard = new Scanner(System.in);
@@ -304,9 +304,9 @@ public class Partie {
 						p.joueurSuivant();
 					}
 				} else {
-					if (p.peutJouer(p.current.getMain().getMain())) {
+					if (p.peutJouer(p.current.getMain())) {
 						ArrayList<Carte> carte_jouable = new ArrayList<Carte>();
-						for (Carte c : p.current.getMain().getMain()) {
+						for (Carte c : p.current.getMain()) {
 							if (p.peutJouerCarte(c)) {
 								carte_jouable.add(c);
 							}
@@ -431,7 +431,7 @@ public class Partie {
 
 
 
-				if (p.current.getMain().getMain().size() == 0) {
+				if (p.current.getMain().size() == 0) {
 					winner = p.current;
 					win = true;
 				}
