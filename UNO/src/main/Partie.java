@@ -232,8 +232,24 @@ public class Partie {
 			int cpt_reverse = 0;
 			
 			while (!win) {
+				if (cpt_plus2==1) {
+					plus2=false;
+				}
+				if (cpt_reverse==1) {
+					reverse=false;
+				}
+				if (cpt_passer==1) {
+					passer=false;
+				}
+				if (cpt_plus4==1) {
+					plus4=false;
+				}
+				if (cpt_joker==1) {
+					joker=false;
+				}
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
+				p.trier(reel);
 				
 				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE) && !reverse){
 					p.reverse();
@@ -284,16 +300,8 @@ public class Partie {
 					winner = p.current;
 					win = true;
 				}
-				if (cpt_plus2==1) {
-					plus2=false;
-				}
-				if (cpt_reverse==1) {
-					reverse=false;
-				}
-				if (cpt_passer==1) {
-					passer=false;
-				}
 				if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !plus4 ) {
+					System.out.println("DANS LE IF PLUS4");
 					 if (p.current.equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
@@ -327,15 +335,17 @@ public class Partie {
 						Couleur[] couleur = Couleur.values();
 						Random r = new Random();
 						int idx = r.nextInt(couleur.length);
-						p.mid_carte.setCouleur(couleur[idx]);
+						p.changementCouleur(couleur[idx]);
+						p.plus4(couleur[idx]);
 						p.joueurSuivant();
-						cpt_joker++;
-						joker=true;
+						cpt_plus4++;
+						plus4=true;
 					}
 					
 					
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.JOKER) && !joker) {
+					System.out.println("DANS LE IF JOKER");
 					if (p.current.equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
@@ -368,20 +378,12 @@ public class Partie {
 						Couleur[] couleur = Couleur.values();
 						Random r = new Random();
 						int idx = r.nextInt(couleur.length);
-						p.mid_carte.setCouleur(couleur[idx]);
+						p.changementCouleur(couleur[idx]);
 						p.joueurSuivant();
 						cpt_joker++;
 						joker=true;
 					}
 				}
-				 
-				 if (cpt_plus4==1) {
-						plus4=false;
-					}
-					if (cpt_joker==1) {
-						joker=false;
-					}
-				
 
 			}
 			System.out.println(winner.toString() + " a gagné!!!!!");
