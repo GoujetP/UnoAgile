@@ -56,7 +56,7 @@ public class Partie {
 
 	public void init_partie() {
 		for (Joueur j : joueurs) {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 7; i++) {
 				j.addCarte(distrib.distribuer(pioche));
 			}
 			before(j);
