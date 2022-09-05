@@ -5,7 +5,7 @@ import java.util.Collections;
 
 
 public class Distrib {
-	Pioche p=new Pioche();
+	private Pioche p=new Pioche();
 	
 	public ArrayList<Carte> initialDistribution(){
 		/*

@@ -91,21 +91,22 @@ public class Joueur {
 		int i=0;
 		if(!isBot) {
 			for(Carte c:main) {
-				try {
+				/*try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 				i++;
-				res+=c;
-				res+="\n";
-				res+="(position "+i+") \n";	
+				res+="\n"+c;
+				res+="(position "+i+")";	
 			}
 		}else {
-			System.out.println(nom+" a "+main.size()+" cartes.");
+			System.out.println(nom+" a "+main.size()+" cartes."+"\n");
 		}
 		
 		return res;
 	}
+	
+	
 }

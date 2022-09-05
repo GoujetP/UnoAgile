@@ -44,7 +44,8 @@ public class Partie {
 	}
 
 	public void voirMidCarte() {
-		System.out.println("La carte au milieu est " + mid_carte.toString());
+		System.out.println("La carte au milieu est \n " + mid_carte.toString());
+		
 	}
 
 	public void init_partie() {
@@ -204,7 +205,7 @@ public class Partie {
 		Carte choix =jouable.get(index);
 		bot.getMain().remove(choix);
 		mid_carte = choix;
-		System.out.println(bot.getNom()+" a joué "+choix);
+		System.out.println(bot.getNom()+" a joué \n"+choix);
 	}
 
 	public void trier(Joueur j){
@@ -259,18 +260,24 @@ public class Partie {
 				if (cpt_plus2==1) {
 					plus2=false;
 
+					cpt_plus2=0;
+
 				}
 				if (cpt_reverse==1) {
 					reverse=false;
+					cpt_reverse=0;
 				}
 				if (cpt_passer==1) {
 					passer=false;
+					cpt_passer=0;
 				}
 				if (cpt_plus4==1) {
 					plus4=false;
+					cpt_plus4=0;
 				}
 				if (cpt_joker==1) {
 					joker=false;
+					cpt_joker=0;
 				}
 				/*if(!p.current.isBot && p.current.getNbCarte()==1) {
 					//scanner

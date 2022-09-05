@@ -31,7 +31,7 @@ public class Carte {
 	}
 	
 	public String toString() {
-		String res=symbole+"\n"+ couleur + "\n";
+		String res=symbole+"  |  "+ couleur +"  |  ";
 		return res;
 	}
 }
