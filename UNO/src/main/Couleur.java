@@ -10,4 +10,10 @@ public enum Couleur {
 		initiale=i;
 	}
 	
+	public String toString() {
+		String res="";
+		res=this.name();
+		return res ;
+	}
+	
 }
