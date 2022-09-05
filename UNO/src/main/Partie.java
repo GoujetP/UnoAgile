@@ -296,13 +296,11 @@ public class Partie {
 						p.joueurSuivant();
 					}
 				}
-				if (p.current.getMain().size() == 0) {
-					winner = p.current;
-					win = true;
-				}
+				
 				if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !plus4 ) {
 					System.out.println("DANS LE IF PLUS4");
-					 if (p.current.equals(reel)) {
+					System.out.println(p.current.equals(reel));
+					if (p.current.equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
 						Scanner sc1 = new Scanner(System.in);
@@ -346,6 +344,7 @@ public class Partie {
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.JOKER) && !joker) {
 					System.out.println("DANS LE IF JOKER");
+					System.out.println(p.current.equals(reel));
 					if (p.current.equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
@@ -383,6 +382,10 @@ public class Partie {
 						cpt_joker++;
 						joker=true;
 					}
+				}
+				if (p.current.getMain().size() == 0) {
+					winner = p.current;
+					win = true;
 				}
 
 			}
