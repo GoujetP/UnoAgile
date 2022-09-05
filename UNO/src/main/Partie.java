@@ -18,7 +18,7 @@ public class Partie {
 		joueurs = new ArrayList<Joueur>();
 		joueurs.add(j);
 		for (int i = 0; i < places; i++) {
-			joueurs.add(new Joueur("bot" + i, new ArrayList<Carte>()));
+			joueurs.add(new Joueur("bot" + i, new ArrayList<Carte>(), true));
 		}
 		Collections.shuffle(joueurs);
 		current = joueurs.get(0);
@@ -84,12 +84,15 @@ public class Partie {
 	}
 
 	public void reverse() {
+		System.out.println(joueurs);
 		for (int i = 0; i < joueurs.size() / 2; i++) {
 			Joueur temp = joueurs.get(i);
 			joueurs.set(i, joueurs.get(joueurs.size() - 1 - i));
 			joueurs.set(joueurs.size() - 1 - i, temp);
 		}
+		System.out.println(joueurs);
 		next(current);
+		joueurSuivant();
 		System.out.println("Le joueur suivant est désormais: " + current.getNext().getNom());
 		joueurSuivant();
 	}
@@ -205,7 +208,7 @@ public class Partie {
 		j.setMain(res);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		boolean plus2 =false;
 		boolean plus4 =false;
 		boolean joker =false;
@@ -229,17 +232,17 @@ public class Partie {
 			int cpt_plus4 = 0;
 			int cpt_joker = 0;
 			int cpt_passer = 0;
-			int cpt_reverse = 0;
-			
+			int cpt_reverse = 0;			
 			while (!win) {
+				if(!p.current.isBot && p.current.getNbCarte()==1) {
+					//scanner
+				}
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
 				
 				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE) && !reverse){
 					p.reverse();
-					p.joueurSuivant();
-					p.joueurSuivant();
-					reverse= true;
+					reverse = true;
 					cpt_reverse++;
 				}
 				 if (p.mid_carte.getSymbole().equals(Symbole.PASSER) && !passer) {
@@ -274,6 +277,7 @@ public class Partie {
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
 						p.poserCarteBot(p.current, idx , carte_jouable);
+						System.out.println(p.current);
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
@@ -382,15 +386,15 @@ public class Partie {
 						joker=false;
 					}
 				
-
 			}
 			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
 			System.out.println("Veuillez entrer un chiffre");
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
-
 }
