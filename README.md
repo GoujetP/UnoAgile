@@ -172,7 +172,6 @@
 ### Rétrospective
 #### Sur quoi avons nous butté ?
 > - Florian à des problèmes d'IDE
-> - 
 >
 > La démo est fonctionnelle
 
@@ -182,10 +181,19 @@
 ### Mémo : 
 ![Sprint 6](img/sprint6.jpg)
 
-
 ---
 
 ## Sprint 7 (Lundi 5 septembre)
+
+### Démo + Planification du sprint suivant
+
+#### Ce que nous avons fait durant ce sprint :
+
+
+### Ce que nous allons faire durant le prochain sprint : 
+
+### Rétrospective
+#### Sur quoi avons nous butté ?
 
 ### Mémo : 
 ![Sprint 7](img/sprint7.jpg)

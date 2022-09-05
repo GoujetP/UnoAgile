@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.rules.Timeout;
-
 public class Partie {
 	Distrib distrib = new Distrib();
 	ArrayList<Carte> pioche;
@@ -216,13 +214,13 @@ public class Partie {
 
 	}
 
-	public void poserCarteBot(Joueur bot, int index , ArrayList<Carte> jouable){
+	public void poserCarteBot(Joueur bot, int index , ArrayList<Carte> jouable) throws InterruptedException{
 		Carte choix =jouable.get(index);
 		bot.getMain().getMain().remove(choix);
 		mid_carte = choix;
-		Timeout.seconds(2);
+		TimeUnit.SECONDS.sleep(2);
 		System.out.println("\n"+bot.getNom()+" a joué \n"+choix);
-		Timeout.seconds(2);
+		TimeUnit.SECONDS.sleep(2);
 		System.out.println("Il lui reste: "+bot.getNbCarte()+" cartes.");
 	}
 
