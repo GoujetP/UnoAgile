@@ -84,10 +84,10 @@ public class Joueur {
 				i++;
 				res+=c;
 				res+="\n";
-				res+="(position"+i+") \n";
+				res+="(position "+i+") \n";
 			}
 		}else {
-			System.out.println(nom+" a "+main.size()+" cartes restantes.");
+			System.out.println(nom+" a "+main.size()+" cartes.");
 		}
 		
 		return res;
