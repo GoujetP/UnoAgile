@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.rules.Timeout;
+
 public class Partie {
 	Distrib distrib = new Distrib();
 	ArrayList<Carte> pioche;
@@ -212,7 +214,10 @@ public class Partie {
 		Carte choix =jouable.get(index);
 		bot.getMain().remove(choix);
 		mid_carte = choix;
-		System.out.println(bot.getNom()+" a joué \n"+choix);
+		Timeout.seconds(2);
+		System.out.println("\n"+bot.getNom()+" a joué \n"+choix);
+		Timeout.seconds(2);
+		System.out.println("Il lui reste: "+bot.getNbCarte()+" cartes.");
 	}
 
 	public void trier(Joueur j){
