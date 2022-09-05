@@ -2,6 +2,7 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Joueur {
 	private String nom;
@@ -81,10 +82,16 @@ public class Joueur {
 		int i=0;
 		if(!isBot) {
 			for(Carte c:main) {
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				i++;
 				res+=c;
 				res+="\n";
-				res+="(position "+i+") \n";
+				res+="(position "+i+") \n";	
 			}
 		}else {
 			System.out.println(nom+" a "+main.size()+" cartes.");

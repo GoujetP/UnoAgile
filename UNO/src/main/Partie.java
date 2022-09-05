@@ -30,6 +30,12 @@ public class Partie {
 	
 
 	public void piocher(Joueur j) {
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Carte c = this.pioche.get(this.pioche.size() - 1);
 		this.pioche.remove(c);
 		j.addCarte(c);
