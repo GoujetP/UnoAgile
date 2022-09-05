@@ -6,32 +6,32 @@ import java.util.concurrent.TimeUnit;
 
 public class Joueur {
 	private String nom;
-	private CarteMain main;
+	private ArrayList<Carte> main;
 	private int ordre;
 	private Joueur next;
 	private Joueur before;
 	public boolean isBot;
 
-	public CarteMain getMain() {
+	public ArrayList<Carte> getMain() {
 		return main;
 	}
 
-	public void setMain(CarteMain main) {
+public void setMain(ArrayList<Carte> main) {
 		this.main = main;
 	}
 
 	public Joueur(String name, boolean bot) {
 		super();
 		this.nom=name;
-		this.main =new CarteMain(new ArrayList<Carte>());
+		this.main =new ArrayList<Carte>();
 		this.ordre=0;
 		this.isBot=bot;
 	}
 	
-	public Joueur(String name,List<Carte> main, boolean bot) {
+	public Joueur(String name,ArrayList<Carte> main, boolean bot) {
 		super();
 		this.nom=name;
-		this.main = new CarteMain(main);
+		this.main = main;
 		this.ordre=0;
 		this.isBot=bot;
 	}
@@ -45,21 +45,21 @@ public class Joueur {
 	}
 	
 	public void addCarte(Carte c) {
-		this.main.getMain().add(c);
+		this.main.add(c);
 	}
 	
 	public void removeCarte(int index) {
-		this.main.getMain().remove(index);
+		this.main.remove(index);
 	}
 	
 	
 	public void removeCarte(Carte c) {
-		this.main.getMain().remove(c);
+		this.main.remove(c);
 	}
 	
 	
 	public int getNbCarte(){
-		return this.main.getMain().size();
+		return this.main.size();
 	}
 
 	public String getNom() {
@@ -90,7 +90,7 @@ public class Joueur {
 		String res=nom +": \n";
 		int i=0;
 		if(!isBot) {
-			for(Carte c:main.getMain()) {
+			for(Carte c:main) {
 				/*try {
 					TimeUnit.SECONDS.sleep(1);
 				} catch (InterruptedException e) {
@@ -102,7 +102,7 @@ public class Joueur {
 				res+="(position "+i+")";	
 			}
 		}else {
-			System.out.println(nom+" a "+main.getMain().size()+" cartes."+"\n");
+			System.out.println(nom+" a "+main.size()+" cartes."+"\n");
 		}
 		
 		return res;
