@@ -25,15 +25,21 @@ public class Partie {
 		next(current);
 		pioche = distrib.initialDistribution();
 	}
-	
-	
-	
+
+
+
 
 	public void piocher(Joueur j) {
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Carte c = this.pioche.get(this.pioche.size() - 1);
 		this.pioche.remove(c);
 		j.addCarte(c);
-		System.out.println(j.getNom() + " pioche !!!!");
+		System.out.println(j.getNom() + " pioche !!!! \n il y'a maintenant "+j.getNbCarte()+ " cartes dans sa main.");
 
 	}
 
@@ -46,9 +52,10 @@ public class Partie {
 			for (int i = 0; i < 7; i++) {
 				j.addCarte(distrib.distribuer(pioche));
 			}
+			before(j);
 		}
 		mid_carte = distrib.distribuer(pioche);
-		
+
 	}
 
 	public ArrayList<Joueur> getJoueurs() {
@@ -104,6 +111,16 @@ public class Partie {
 		}
 		j.setNext(joueurs.get(idx));
 	}
+	
+	public void before(Joueur j) {
+		int idx = joueurs.indexOf(j);
+		if ((idx) == 0) {
+			idx = joueurs.size()-1;
+		} else {
+			idx--;
+		}
+		j.setBefore(joueurs.get(idx));
+	}
 
 	public void plus2() {
 		for (int i = 0; i < 2; i++) {
@@ -156,7 +173,7 @@ public class Partie {
 			try {
 				@SuppressWarnings("resource")
 				Scanner keyboard = new Scanner(System.in);
-				System.out.println("-------------------------------------------------\n" + j1.getMain().toString());
+				System.out.println("-------------------------------------------------\n" + j1);
 				System.out.println("Choix de la carte à poser : ");
 				int indexChoix = keyboard.nextInt();
 				choix = j1.getMain().get(indexChoix - 1);
@@ -189,7 +206,7 @@ public class Partie {
 		mid_carte = choix;
 		System.out.println(bot.getNom()+" a joué "+choix);
 	}
-	
+
 	public void trier(Joueur j){
 		ArrayList<Carte> res=new ArrayList<Carte>();
 		Couleur[] ordreC=Couleur.values();
@@ -238,27 +255,49 @@ public class Partie {
 				else if(p.current.isBot && p.current.getNbCarte()==1) {
 					//scanner(contre uno)
 				}
+
+				if (cpt_plus2==1) {
+					plus2=false;
+
+				}
+				if (cpt_reverse==1) {
+					reverse=false;
+				}
+				if (cpt_passer==1) {
+					passer=false;
+				}
+				if (cpt_plus4==1) {
+					plus4=false;
+				}
+				if (cpt_joker==1) {
+					joker=false;
+				}
+				/*if(!p.current.isBot && p.current.getNbCarte()==1) {
+					//scanner
+
+				}*/
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
-				
+				p.trier(reel);
+
 				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE) && !reverse){
 					p.reverse();
 					reverse = true;
 					cpt_reverse++;
 				}
-				 if (p.mid_carte.getSymbole().equals(Symbole.PASSER) && !passer) {
+				if (p.mid_carte.getSymbole().equals(Symbole.PASSER) && !passer) {
 					p.passer();
 					passer=true;
 					cpt_passer++;
 				}
-				 if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !plus2  ) {
+				if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !plus2  ) {
 					p.plus2();
 					p.joueurSuivant();
 					cpt_plus2++;
 					plus2=true;
 				}
-				
-				 if (p.current.equals(reel)) {
+
+				if (p.current.equals(reel)) {
 					if (p.peutJouer(p.current.getMain())) {
 						p.poserCarte(reel);
 						p.joueurSuivant();
@@ -274,7 +313,7 @@ public class Partie {
 								carte_jouable.add(c);
 							}
 						}
-						
+
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
 						p.poserCarteBot(p.current, idx , carte_jouable);
@@ -286,21 +325,10 @@ public class Partie {
 						p.joueurSuivant();
 					}
 				}
-				if (p.current.getMain().size() == 0) {
-					winner = p.current;
-					win = true;
-				}
-				if (cpt_plus2==1) {
-					plus2=false;
-				}
-				if (cpt_reverse==1) {
-					reverse=false;
-				}
-				if (cpt_passer==1) {
-					passer=false;
-				}
+
 				if (p.mid_carte.getSymbole().equals(Symbole.PLUS4)  && !plus4 ) {
-					 if (p.current.equals(reel)) {
+					System.out.println(p.current.getBefore().equals(reel));
+					if (p.current.getBefore().equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
 						Scanner sc1 = new Scanner(System.in);
@@ -308,9 +336,9 @@ public class Partie {
 						while ( !color.equals("V") && !color.equals("B") &&!color.equals("R") && !color.equals("J") ) {
 							System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
 							color = sc1.nextLine();
-		
+
 						}
-						
+
 						if (color.equals("V")) {
 							c=Couleur.VERT;
 						}
@@ -328,21 +356,24 @@ public class Partie {
 						p.joueurSuivant();
 						cpt_plus4++;
 						plus4=true;
-					 }
+					}
 					else {
 						Couleur[] couleur = Couleur.values();
 						Random r = new Random();
 						int idx = r.nextInt(couleur.length);
-						p.mid_carte.setCouleur(couleur[idx]);
+						p.changementCouleur(couleur[idx]);
+						p.plus4(couleur[idx]);
 						p.joueurSuivant();
-						cpt_joker++;
-						joker=true;
+						cpt_plus4++;
+						plus4=true;
 					}
-					
-					
+
+
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.JOKER) && !joker) {
-					if (p.current.equals(reel)) {
+					
+					System.out.println(p.current.getBefore().equals(reel));
+					if (p.current.getBefore().equals(reel)) {
 						Couleur c = Couleur.ROUGE;
 						System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
 						Scanner sc1 = new Scanner(System.in);
@@ -350,9 +381,9 @@ public class Partie {
 						while ( !color.equals("V") && !color.equals("B") && !color.equals("R") && !color.equals("J") ) {
 							System.out.println("Quelle couleur jefe ? V pour Vert , B pour Bleu , R pour Rouge , J pour Jaune");
 							color = sc1.nextLine();
-							
+
 						}
-						
+
 						if (color.equals("V")) {
 							c=Couleur.VERT;
 						}
@@ -374,29 +405,34 @@ public class Partie {
 						Couleur[] couleur = Couleur.values();
 						Random r = new Random();
 						int idx = r.nextInt(couleur.length);
-						p.mid_carte.setCouleur(couleur[idx]);
+						p.changementCouleur(couleur[idx]);
 						p.joueurSuivant();
 						cpt_joker++;
 						joker=true;
 					}
 				}
-				 
-				 if (cpt_plus4==1) {
-						plus4=false;
-					}
-					if (cpt_joker==1) {
-						joker=false;
-					}
+
 				
+
+
+
+				
+				
+				if (p.current.getMain().size() == 0) {
+					winner = p.current;
+					win = true;
+				}
+
 			}
-			System.out.println(winner.toString() + " a gagné!!!!!");
-		} catch (NumberFormatException e) {
-			System.out.println("Veuillez entrer un chiffre");
-			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+		System.out.println(winner.toString() + " a gagné!!!!!");
 	}
+
+
+
+
 }

@@ -2,12 +2,14 @@ package main;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class Joueur {
 	private String nom;
 	private List<Carte> main;
 	private int ordre;
 	private Joueur next;
+	private Joueur before;
 	public boolean isBot;
 
 	public List<Carte> getMain() {
@@ -76,18 +78,32 @@ public class Joueur {
 		this.next = next;
 	}
 	
+	public Joueur getBefore() {
+		return before;
+	}
+
+	public void setBefore(Joueur before) {
+		this.before = before;
+	}
+
 	public String toString() {
 		String res=nom +": \n";
 		int i=0;
 		if(!isBot) {
 			for(Carte c:main) {
+				try {
+					TimeUnit.SECONDS.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				i++;
 				res+=c;
 				res+="\n";
-				res+="(position"+i+") \n";
+				res+="(position "+i+") \n";	
 			}
 		}else {
-			System.out.println(nom+" a "+main.size()+" cartes restantes.");
+			System.out.println(nom+" a "+main.size()+" cartes.");
 		}
 		
 		return res;
