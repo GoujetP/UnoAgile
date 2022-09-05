@@ -234,6 +234,9 @@ public class Partie {
 			int cpt_passer = 0;
 			int cpt_reverse = 0;			
 			while (!win) {
+				if(!p.current.isBot && p.current.getNbCarte()==1) {
+					//scanner
+				}
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
 				
@@ -274,6 +277,7 @@ public class Partie {
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
 						p.poserCarteBot(p.current, idx , carte_jouable);
+						System.out.println(p.current);
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
@@ -382,7 +386,6 @@ public class Partie {
 						joker=false;
 					}
 				
-
 			}
 			System.out.println(winner.toString() + " a gagné!!!!!");
 		} catch (NumberFormatException e) {
