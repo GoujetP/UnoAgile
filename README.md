@@ -5,6 +5,7 @@
 > -  Delbe Florian
 > -  Bedrici Lea
 > -  Goujet Pierre
+> -  Pirez Leo
 > -  Foulon Pierre
 >
 > https://gitlab.univ-lille.fr/2022-projet-agile-de-rentree/groupe-8
@@ -173,10 +174,10 @@
 #### Sur quoi avons nous butté ?
 > - Florian à des problèmes d'IDE
 >
-> La démo est fonctionnelle
+> La démo est fonctionnelle et rendue à temps
 
 ### PDCA
-> - 
+> - Tests unitaires pour detecter les bugs
 
 ### Mémo : 
 ![Sprint 6](img/sprint6.jpg)
@@ -188,12 +189,19 @@
 ### Démo + Planification du sprint suivant
 
 #### Ce que nous avons fait durant ce sprint :
-
+> - Pouvoir annoncer un UNO
+> - Résolutions de bugs
 
 ### Ce que nous allons faire durant le prochain sprint : 
+> - Valider le UNO
+> - Pouvoir CONTRE-UNO
 
 ### Rétrospective
 #### Sur quoi avons nous butté ?
+> - Problèmes d'ASCII Arts
+> - Aligner les cartes de la main
+### PDCA
+> - Changer les ASCII Arts
 
 ### Mémo : 
 ![Sprint 7](img/sprint7.jpg)
@@ -202,12 +210,47 @@
 
 ## Sprint 8 (Lundi 5 septembre)
 
+### Démo + Planification du sprint suivant
+
+### Ce que nous avons fait durant ce sprint :
+> - Annoncer le UNO
+> - Valider le CONTRE-UNO
+
+### Ce que nous allons faire durant le prochain sprint : 
+> - Mettre couleurs dans le terminal
+> - Rendre le projet executable facilement
+
+### Rétrospective
+#### Sur quoi avons nous butté ?
+> - Utilisation simultanée de Timer et de Scanner
+> - Problèmes d'input à cause de la console
+
+### PDCA
+> - Utilisation des threads
+
 ### Mémo : 
 ![Sprint 8](img/sprint8.jpg)
 
 ---
 
 ## Sprint 9 (Lundi 5 septembre)
+
+### Démo + Planification du sprint suivant
+
+### Ce que nous avons fait durant ce sprint :
+> - Couleurs efficace dans le terminal
+> - Fichier executable 
+
+### Ce que nous allons faire durant le prochain sprint : 
+> - Rendre le projet 
+
+
+### Rétrospective
+#### Sur quoi avons nous butté ?
+> - Couleurs pour carte spéciale non fonctionnelle
+
+### PDCA
+> - Réflexion collective
 
 ### Mémo : 
 ![Sprint 9](img/sprint9.jpg)
