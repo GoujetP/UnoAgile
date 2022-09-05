@@ -23,13 +23,15 @@ public class Joueur {
 		this.nom=name;
 		this.main =new ArrayList<Carte>();
 		this.ordre=0;
+		this.isBot=bot;
 	}
 	
-	public Joueur(String name,List<Carte> main) {
+	public Joueur(String name,List<Carte> main, boolean bot) {
 		super();
 		this.nom=name;
 		this.main = main;
 		this.ordre=0;
+		this.isBot=bot;
 	}
 
 	public int getOrdre() {
@@ -76,10 +78,13 @@ public class Joueur {
 	
 	public String toString() {
 		String res=nom +": \n";
+		int i=0;
 		if(!isBot) {
 			for(Carte c:main) {
+				i++;
 				res+=c;
 				res+="\n";
+				res+="(position"+i+") \n";
 			}
 		}
 		
