@@ -26,9 +26,13 @@ public class Partie {
 		pioche = distrib.initialDistribution();
 	}
 
+	public Carte getMid() {
+		return mid_carte;
+	}
 
-
-
+	public void setMid(Carte c) {
+		mid_carte=c;
+	}
 	public void piocher(Joueur j) {
 		try {
 			TimeUnit.SECONDS.sleep(1);

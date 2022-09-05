@@ -14,4 +14,10 @@ class DistribTest {
 		assertFalse(p.getCartes().equals(d.initialDistribution()));
 	}
 
+	@Test
+	void testDistribuer() {
+		Carte c1=p.getCartes().get(0);
+		assertEquals(c1, d.distribuer(p.getCartes()));
+	}
+
 }
