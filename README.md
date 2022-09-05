@@ -8,6 +8,7 @@
 > -  Foulon Pierre
 >
 > https://gitlab.univ-lille.fr/2022-projet-agile-de-rentree/groupe-8
+
 ---
 
 ## Sprint 1 (Jeudi 1 septembre)
@@ -38,6 +39,7 @@
 
 ### Mémo : 
 ![Sprint 1](img/sprint1.jpg)
+
 ---
 
 ## Sprint 2 (Vendredi 2 septembre)
@@ -45,26 +47,26 @@
 ### Démo + Planification du sprint suivant
 
 #### Ce que nous avons fait durant ce sprint :
->- Choix de la carte a poser
->- Piocher une carte
->- Voir les cartes dans sa main
->- Voir la carte au centre
+> - Choix de la carte a poser
+> - Piocher une carte
+> - Voir les cartes dans sa main
+> - Voir la carte au centre
 
 ### Ce que nous allons faire durant le prochain sprint : 
->- Créer des ASCII Arts pour rendre le jeu plus visuel
->- Connaitre la couleur de la carte
->- Savoir quel joueur joue
+> - Créer des ASCII Arts pour rendre le jeu plus visuel
+> - Connaitre la couleur de la carte
+> - Savoir quel joueur joue
 
 ### Rétrospective
 #### Sur quoi avons nous butté ?
->- Certains conflits git
->- Pioche aléatoire et incorrecte
+> - Certains conflits git
+> - Pioche aléatoire et incorrecte
 >
->Nous avons pu rendre à temps une démo fonctionnelle et donc terminer nos objectifs
+> Nous avons pu rendre à temps une démo fonctionnelle et donc terminer nos objectifs
 
 
 ### PDCA
->- Résoudre les bugs en communiquant entre nous
+> - Résoudre les bugs en communiquant entre nous
 
 ### Mémo : 
 ![Sprint 2](img/sprint2.jpg)
@@ -76,25 +78,25 @@
 ### Démo + Planification du sprint suivant
 
 #### Ce que nous avons fait durant ce sprint :
-- Préparation des ASCII Arts pour l'affichage des cartes
-- Possibilité de connaitre la couleur de la carte
-- Savoir qui joue
+> - Préparation des ASCII Arts pour l'affichage des cartes
+> - Possibilité de connaitre la couleur de la carte
+> - Savoir qui joue
 
 ### Ce que nous allons faire durant le prochain sprint : 
-- Régler le système de tour
-- Voir le nombre de cartes des adversaires
+> - Régler le système de tour
+> - Voir le nombre de cartes des adversaires
 
 ### Rétrospective
 #### Sur quoi avons nous butté ?
-- Conflits git
-- Affichage des ASCII Arts
-
-Nous avons rendu à temps une démo semi-fonctionnelle avec quelques soucis de boucle
+> - Conflits git
+> - Affichage des ASCII Arts
+>
+> Nous avons rendu à temps une démo semi-fonctionnelle avec quelques soucis de boucle
 
 
 ### PDCA
-- Ne pas travailler sur le même fichier en même temps
-- Résoudre les bugs en communiquant entre nous
+> - Ne pas travailler sur le même fichier en même temps
+> - Résoudre les bugs en communiquant entre nous
 
 
 ### Mémo : 
@@ -107,21 +109,22 @@ Nous avons rendu à temps une démo semi-fonctionnelle avec quelques soucis de b
 ### Démo + Planification du sprint suivant
 
 #### Ce que nous avons fait durant ce sprint :
->- Vérifier si la carte posée par le joueur est valide
->- Système de tour
+> - Vérifier si la carte posée par le joueur est valide
+> - Système de tour
 
 ### Ce que nous allons faire durant le prochain sprint : 
-
+> - Résolution bug IA
+> - Trier les cartes
 
 ### Rétrospective
 #### Sur quoi avons nous butté ?
 
->- IA qui joue n'importe quoi
+> - IA qui joue n'importe quoi
 >
 >Nous avons rendu une démo fonctionnelle malgrès les erreurs avec l'IA
 
 ### PDCA
->- Réaliser des tests unitaires sur chaque méthodes pour trouver le bug
+> - Réaliser des tests unitaires sur chaque méthodes pour trouver le bug
 
 ### Mémo : 
 ![Sprint 4](img/sprint4.jpg)
@@ -133,22 +136,72 @@ Nous avons rendu à temps une démo semi-fonctionnelle avec quelques soucis de b
 ### Démo + Planification du sprint suivant
 
 #### Ce que nous avons fait durant ce sprint :
-> - 
+> - Résolutions problèmes de tour
+> - Moins de bugs d'IA
+> - Trier les cartes du deck
 
 ### Ce que nous allons faire durant le prochain sprint : 
-
+> - Voir le nombre de cartes des IA
 
 ### Rétrospective
 #### Sur quoi avons nous butté ?
-
+> - Problème d'accolades
+> - IDE déffectueux pour Florian
+>
+> La démo est fonctionnelle malgrès les quelques bugs de l'IA
 
 ### PDCA
-
-
+> - Faire attention et communiquer les changements dans le code
 
 ### Mémo : 
-img
+![Sprint 5](img/sprint5.jpg)
 
 ---
 
 ## Sprint 6 (Lundi 5 septembre)
+
+### Démo + Planification du sprint suivant
+
+#### Ce que nous avons fait durant ce sprint :
+> - Résolution des bugs majeurs
+> - Voir le nombre de cartes des adversaires
+
+### Ce que nous allons faire durant le prochain sprint : 
+> - Pouvoir dire UNO
+
+### Rétrospective
+#### Sur quoi avons nous butté ?
+> - Florian à des problèmes d'IDE
+> - 
+>
+> La démo est fonctionnelle
+
+### PDCA
+> - 
+
+### Mémo : 
+![Sprint 6](img/sprint6.jpg)
+
+
+---
+
+## Sprint 7 (Lundi 5 septembre)
+
+### Mémo : 
+![Sprint 7](img/sprint7.jpg)
+
+---
+
+## Sprint 8 (Lundi 5 septembre)
+
+### Mémo : 
+![Sprint 8](img/sprint8.jpg)
+
+---
+
+## Sprint 9 (Lundi 5 septembre)
+
+### Mémo : 
+![Sprint 9](img/sprint9.jpg)
+
+
