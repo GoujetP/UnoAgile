@@ -8,7 +8,8 @@ public class Joueur {
 	private List<Carte> main;
 	private int ordre;
 	private Joueur next;
-	private boolean isBot;
+	private Joueur before;
+	public boolean isBot;
 
 	public List<Carte> getMain() {
 		return main;
@@ -76,6 +77,14 @@ public class Joueur {
 		this.next = next;
 	}
 	
+	public Joueur getBefore() {
+		return before;
+	}
+
+	public void setBefore(Joueur before) {
+		this.before = before;
+	}
+
 	public String toString() {
 		String res=nom +": \n";
 		int i=0;
@@ -86,6 +95,8 @@ public class Joueur {
 				res+="\n";
 				res+="(position"+i+") \n";
 			}
+		}else {
+			System.out.println(nom+" a "+main.size()+" cartes restantes.");
 		}
 		
 		return res;
