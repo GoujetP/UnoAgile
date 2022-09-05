@@ -3,6 +3,7 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -44,13 +45,14 @@ public class Partie {
 	}
 
 	public void voirMidCarte() {
+		System.out.println("-------------------------------------------------\n" );
 		System.out.println("La carte au milieu est \n " + mid_carte.toString());
-		
+
 	}
 
 	public void init_partie() {
 		for (Joueur j : joueurs) {
-			for (int i = 0; i < 7; i++) {
+			for (int i = 0; i < 2; i++) {
 				j.addCarte(distrib.distribuer(pioche));
 			}
 			before(j);
@@ -112,7 +114,7 @@ public class Partie {
 		}
 		j.setNext(joueurs.get(idx));
 	}
-	
+
 	public void before(Joueur j) {
 		int idx = joueurs.indexOf(j);
 		if ((idx) == 0) {
@@ -174,8 +176,9 @@ public class Partie {
 			try {
 				@SuppressWarnings("resource")
 				Scanner keyboard = new Scanner(System.in);
-				System.out.println("-------------------------------------------------\n" + j1);
+				System.out.println("-------------------------------------------------\n"+j1);
 				System.out.println("Choix de la carte à poser : ");
+				System.out.println("-------------------------------------------------\n");
 				int indexChoix = keyboard.nextInt();
 				choix = j1.getMain().get(indexChoix - 1);
 				ok = true;
@@ -196,7 +199,7 @@ public class Partie {
 			}
 			j.getMain().remove(choix);
 			mid_carte = choix;
-			System.out.println("Vous avez posé la carte "+choix);
+			System.out.println("Vous avez posé la carte "+choix+"\n");
 		}
 
 	}
@@ -243,46 +246,13 @@ public class Partie {
 			Joueur j = new Joueur(name, false);
 			Joueur reel = j;
 			Partie p = new Partie(j, nb);
-			p.init_partie();
-			int cpt_plus2 = 0;
-			int cpt_plus4 = 0;
-			int cpt_joker = 0;
-			int cpt_passer = 0;
-			int cpt_reverse = 0;			
+			p.init_partie();		
 			while (!win) {
-				if(!p.current.isBot && p.current.getNbCarte()==1) {
-					//scanner(uno)
-				}
-				else if(p.current.isBot && p.current.getNbCarte()==1) {
-					//scanner(contre uno)
-				}
-
-				if (cpt_plus2==1) {
-					plus2=false;
-
-					cpt_plus2=0;
-
-				}
-				if (cpt_reverse==1) {
-					reverse=false;
-					cpt_reverse=0;
-				}
-				if (cpt_passer==1) {
-					passer=false;
-					cpt_passer=0;
-				}
-				if (cpt_plus4==1) {
-					plus4=false;
-					cpt_plus4=0;
-				}
-				if (cpt_joker==1) {
-					joker=false;
-					cpt_joker=0;
-				}
-				/*if(!p.current.isBot && p.current.getNbCarte()==1) {
-					//scanner
-
-				}*/
+				plus2 =false;
+				plus4 =false;
+				joker =false;
+				passer = false;
+				reverse = false;
 				p.voirMidCarte();
 				TimeUnit.SECONDS.sleep(4);
 				p.trier(reel);
@@ -290,23 +260,44 @@ public class Partie {
 				if (p.mid_carte.getSymbole().equals(Symbole.REVERSE) && !reverse){
 					p.reverse();
 					reverse = true;
-					cpt_reverse++;
+					
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.PASSER) && !passer) {
 					p.passer();
 					passer=true;
-					cpt_passer++;
+					
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.PLUS2) && !plus2  ) {
 					p.plus2();
 					p.joueurSuivant();
-					cpt_plus2++;
+					
 					plus2=true;
 				}
 
 				if (p.current.equals(reel)) {
 					if (p.peutJouer(p.current.getMain())) {
 						p.poserCarte(reel);
+						if (p.current.getNbCarte() == 1) {
+							Scanner keyboard = new Scanner(System.in);
+							final boolean[] doitPiocher = {true};
+
+							Thread timer = new Thread() {
+								public void run() {
+									if (keyboard.nextLine().toLowerCase(Locale.ROOT).equals("uno")) {
+										doitPiocher[0] = false;
+									}
+								}
+							};
+
+							timer.start();
+							TimeUnit.SECONDS.sleep(2);
+							timer.interrupt();
+
+							if (doitPiocher[0]) {
+								System.out.println("Contre UNO !");
+								p.piocher(p.current);
+							}
+						}
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
@@ -324,7 +315,28 @@ public class Partie {
 						Random r = new Random();
 						int idx = r.nextInt(carte_jouable.size());
 						p.poserCarteBot(p.current, idx , carte_jouable);
-						System.out.println(p.current);
+						if (p.current.getNbCarte() == 1) {
+                            Scanner keyboard = new Scanner(System.in);
+                            final boolean[] doitPiocher = {false};
+
+                            Thread timer = new Thread() {
+                                public void run() {
+                                    if (keyboard.nextLine().toLowerCase(Locale.ROOT).equals("contreuno")) {
+                                        doitPiocher[0] = true;
+                                    }
+                                }
+                            };
+
+                            timer.start();
+                            TimeUnit.SECONDS.sleep(4);
+                            timer.interrupt();
+
+                            if (doitPiocher[0]) {
+                                System.out.println("\nContre UNO !");
+                                p.piocher(p.current);
+                                p.piocher(p.current);
+                            }
+                        }
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
@@ -361,7 +373,6 @@ public class Partie {
 						p.mid_carte.setCouleur(c);
 						p.plus4(c);
 						p.joueurSuivant();
-						cpt_plus4++;
 						plus4=true;
 					}
 					else {
@@ -371,14 +382,13 @@ public class Partie {
 						p.changementCouleur(couleur[idx]);
 						p.plus4(couleur[idx]);
 						p.joueurSuivant();
-						cpt_plus4++;
 						plus4=true;
 					}
 
 
 				}
 				if (p.mid_carte.getSymbole().equals(Symbole.JOKER) && !joker) {
-					
+
 					System.out.println(p.current.getBefore().equals(reel));
 					if (p.current.getBefore().equals(reel)) {
 						Couleur c = Couleur.ROUGE;
@@ -405,7 +415,6 @@ public class Partie {
 						}
 						p.mid_carte.setCouleur(c);
 						p.joueurSuivant();
-						cpt_joker++;
 						joker=true;
 					}
 					else {
@@ -414,17 +423,16 @@ public class Partie {
 						int idx = r.nextInt(couleur.length);
 						p.changementCouleur(couleur[idx]);
 						p.joueurSuivant();
-						cpt_joker++;
 						joker=true;
 					}
 				}
 
-				
 
 
 
-				
-				
+
+
+
 				if (p.current.getMain().size() == 0) {
 					winner = p.current;
 					win = true;
