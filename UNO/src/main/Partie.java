@@ -84,13 +84,11 @@ public class Partie {
 	}
 
 	public void reverse() {
-		System.out.println(joueurs);
 		for (int i = 0; i < joueurs.size() / 2; i++) {
 			Joueur temp = joueurs.get(i);
 			joueurs.set(i, joueurs.get(joueurs.size() - 1 - i));
 			joueurs.set(joueurs.size() - 1 - i, temp);
 		}
-		System.out.println(joueurs);
 		next(current);
 		joueurSuivant();
 		System.out.println("Le joueur suivant est désormais: " + current.getNext().getNom());
@@ -284,6 +282,7 @@ public class Partie {
 						p.joueurSuivant();
 					} else {
 						p.piocher(p.current);
+						System.out.println(p.current);
 						p.joueurSuivant();
 					}
 				}
